@@ -1,122 +1,122 @@
-import React, { useState } from 'react';
-import { Send, Mail, Phone, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Send,
+  Mail,
+  Phone,
+  MapPin,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
-  const [formStatus, setFormStatus] = useState(''); // '', 'sending', 'success', 'error'
+  const [formStatus, setFormStatus] = useState(""); // '', 'sending', 'success', 'error'
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = "Name is required";
     }
-    
+
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
-    
+
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = "Subject is required";
     }
-    
+
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = "Message is required";
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+      newErrors.message = "Message must be at least 10 characters";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-    
-    setFormStatus('sending');
+
+    if (!validateForm()) return;
+
+    setFormStatus("sending");
 
     try {
-      // Simulate API call (replace with real EmailJS or backend API)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In real scenario, send to EmailJS or your backend:
-      // const response = await fetch('YOUR_API_ENDPOINT', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
-      
-      setFormStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setFormStatus('');
-      }, 5000);
+      const form = e.target;
+      const formDataEncoded = new FormData(form);
+
+      await fetch("/", {
+        method: "POST",
+        body: formDataEncoded,
+      });
+
+      setFormStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+
+      setTimeout(() => setFormStatus(""), 5000);
     } catch (error) {
-      console.error('Error sending message:', error);
-      setFormStatus('error');
-      
-      setTimeout(() => {
-        setFormStatus('');
-      }, 5000);
+      console.error(error);
+      setFormStatus("error");
+      setTimeout(() => setFormStatus(""), 5000);
     }
   };
 
   const contactInfo = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: 'Email',
-      value: 'crelanteservice@gmail.com',
-      href: 'mailto:crelanteservice@gmail.com',
-      description: 'Send us an email anytime'
+      title: "Email",
+      value: "crelanteservice@gmail.com",
+      href: "mailto:crelanteservice@gmail.com",
+      description: "Send us an email anytime",
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: 'Phone',
-      value: '+91 9359948301',
-      href: 'tel:+91 9359948301',
-      description: 'Mon-Fri from 8am to 5pm'
+      title: "Phone",
+      value: "+91 9359948301",
+      href: "tel:+91 9359948301",
+      description: "Mon-Fri from 8am to 5pm",
     },
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: 'Office',
-      value: 'Canacona, Goa',
-      href: 'https://www.google.com/maps/place/Canacona,+Goa/',
-      description: 'Canacona Goa'
-    }
+      title: "Office",
+      value: "Canacona, Goa",
+      href: "https://www.google.com/maps/place/Canacona,+Goa/",
+      description: "Canacona Goa",
+    },
   ];
 
   return (
-    <section id="contact" className="py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100">
+    <section
+      id="contact"
+      className="py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -124,7 +124,8 @@ const Contact = () => {
             Get In Touch
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have a project in mind? Let's talk about how we can help bring your ideas to life
+            Have a project in mind? Let's talk about how we can help bring your
+            ideas to life
           </p>
         </div>
 
@@ -135,10 +136,21 @@ const Contact = () => {
               Send us a message
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+
               {/* Name Input */}
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Your Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -148,7 +160,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
+                    errors.name ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="John Doe"
                 />
@@ -162,7 +174,10 @@ const Contact = () => {
 
               {/* Email Input */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Your Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -172,7 +187,7 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
+                    errors.email ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="john@example.com"
                 />
@@ -186,7 +201,10 @@ const Contact = () => {
 
               {/* Subject Input */}
               <div>
-                <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Subject <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -196,7 +214,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all ${
-                    errors.subject ? 'border-red-500' : 'border-gray-300'
+                    errors.subject ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Project Inquiry"
                 />
@@ -210,7 +228,10 @@ const Contact = () => {
 
               {/* Message Textarea */}
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
                   Message <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -220,7 +241,7 @@ const Contact = () => {
                   onChange={handleChange}
                   rows="5"
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all resize-none ${
-                    errors.message ? 'border-red-500' : 'border-gray-300'
+                    errors.message ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Tell us about your project..."
                 ></textarea>
@@ -235,10 +256,10 @@ const Contact = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={formStatus === 'sending'}
+                disabled={formStatus === "sending"}
                 className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
               >
-                {formStatus === 'sending' ? (
+                {formStatus === "sending" ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     Sending...
@@ -252,18 +273,20 @@ const Contact = () => {
               </button>
 
               {/* Success Message */}
-              {formStatus === 'success' && (
+              {formStatus === "success" && (
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-800 animate-slide-up flex items-center gap-3">
                   <CheckCircle className="flex-shrink-0" size={20} />
                   <div>
                     <p className="font-semibold">Message sent successfully!</p>
-                    <p className="text-sm">We'll get back to you as soon as possible.</p>
+                    <p className="text-sm">
+                      We'll get back to you as soon as possible.
+                    </p>
                   </div>
                 </div>
               )}
 
               {/* Error Message */}
-              {formStatus === 'error' && (
+              {formStatus === "error" && (
                 <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 animate-slide-up flex items-center gap-3">
                   <AlertCircle className="flex-shrink-0" size={20} />
                   <div>
@@ -288,8 +311,12 @@ const Contact = () => {
                   <a
                     key={index}
                     href={info.href}
-                    target={info.href.startsWith('http') ? '_blank' : undefined}
-                    rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    target={info.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      info.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
                     className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-all group"
                   >
                     <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500 to-purple-500 text-white rounded-lg group-hover:scale-110 transition-transform">
@@ -318,7 +345,8 @@ const Contact = () => {
                   Ready to start your project?
                 </h3>
                 <p className="mb-6 opacity-90">
-                  Let's create something amazing together. We're here to help bring your vision to life.
+                  Let's create something amazing together. We're here to help
+                  bring your vision to life.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <div className="px-4 py-2 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -332,7 +360,7 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Decorative circles */}
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
