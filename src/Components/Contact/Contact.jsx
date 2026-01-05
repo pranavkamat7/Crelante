@@ -7,6 +7,8 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import emailjs from "emailjs-com";
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -62,31 +64,36 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validateForm()) return;
+  if (!validateForm()) return;
 
-    setFormStatus("sending");
+  setFormStatus("sending");
 
-    try {
-      const form = e.target;
-      const formDataEncoded = new FormData(form);
+  try {
+    await emailjs.send(
+      "service_azs3tfs",
+      "template_rwbzv1h",
+      {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      "QP9A65ppkGh9qqFDm"
+    );
 
-      await fetch("/", {
-        method: "POST",
-        body: formDataEncoded,
-      });
+    setFormStatus("success");
+    setFormData({ name: "", email: "", subject: "", message: "" });
 
-      setFormStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+    setTimeout(() => setFormStatus(""), 5000);
+  } catch (error) {
+    console.error("EmailJS Error:", error);
+    setFormStatus("error");
+    setTimeout(() => setFormStatus(""), 5000);
+  }
+};
 
-      setTimeout(() => setFormStatus(""), 5000);
-    } catch (error) {
-      console.error(error);
-      setFormStatus("error");
-      setTimeout(() => setFormStatus(""), 5000);
-    }
-  };
 
   const contactInfo = [
     {
