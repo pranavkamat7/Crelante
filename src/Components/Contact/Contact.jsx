@@ -95,8 +95,8 @@ const Contact = () => {
     {
       icon: <Mail className="w-6 h-6" />,
       title: 'Email',
-      value: 'crelante@gmail.com',
-      href: 'mailto:crelante@gmail.com',
+      value: 'crelanteservice@gmail.com',
+      href: 'mailto:crelanteservice@gmail.com',
       description: 'Send us an email anytime'
     },
     {
