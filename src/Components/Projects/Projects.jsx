@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Loader2 } from 'lucide-react';
 
 const Projects = () => {
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState('Creative Studio');
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -135,7 +135,7 @@ const Projects = () => {
     setLoading(false);
   };
 
-  const categories = ['All','Creative Studio','Web App','Digital Marketing'];
+  const categories = ['Creative Studio','Web App','Digital Marketing','All'];
 
   const filteredProjects = filter === 'All' 
     ? projects 
