@@ -8,67 +8,108 @@ const Projects = () => {
 
   // Fallback projects if API fails
   const fallbackProjects = [
-    {
-      id: 1,
-      title: 'E-Commerce Platform',
-      category: 'Web App',
-      description: 'Full-featured online store with payment integration and admin dashboard',
-      color: 'from-purple-500 to-pink-500',
-      tags: ['React', 'Node.js', 'MongoDB'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    },
-    {
-      id: 2,
-      title: 'Portfolio Website',
-      category: 'Website',
-      description: 'Modern portfolio site with animations and responsive design',
-      color: 'from-blue-500 to-cyan-500',
-      tags: ['React', 'Tailwind', 'Framer'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    },
-    {
-      id: 3,
-      title: 'Mobile App Design',
-      category: 'UI/UX',
-      description: 'Clean and intuitive mobile app interface design',
-      color: 'from-orange-500 to-red-500',
-      tags: ['Figma', 'Design', 'Mobile'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    },
-    {
-      id: 4,
-      title: 'Dashboard Analytics',
-      category: 'Web App',
-      description: 'Real-time analytics dashboard with data visualization',
-      color: 'from-green-500 to-teal-500',
-      tags: ['React', 'Chart.js', 'API'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    },
-    {
-      id: 5,
-      title: 'Restaurant Website',
-      category: 'Website',
-      description: 'Beautiful restaurant site with online ordering system',
-      color: 'from-yellow-500 to-orange-500',
-      tags: ['Vue', 'Firebase', 'PWA'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    },
-    {
-      id: 6,
-      title: 'Fitness App Interface',
-      category: 'UI/UX',
-      description: 'Engaging fitness tracking app with workout plans',
-      color: 'from-indigo-500 to-purple-500',
-      tags: ['Figma', 'Mobile', 'Health'],
-      github: 'https://github.com',
-      demo: 'https://example.com'
-    }
-  ];
+  {
+    id: 1,
+    title: 'E-Commerce Platform',
+    category: 'Web App',
+    description: 'Full-featured online store with payment integration and admin dashboard',
+    color: 'from-purple-500 to-pink-500',
+    tags: ['React', 'Node.js', 'MongoDB'],
+    github: 'https://github.com',
+    demo: 'https://example.com'
+  },
+  {
+    id: 2,
+    title: 'Business Portfolio Website',
+    category: 'Web App',
+    description: 'Modern portfolio website with animations and responsive design',
+    color: 'from-blue-500 to-cyan-500',
+    tags: ['React', 'Tailwind', 'Framer Motion'],
+    github: 'https://github.com',
+    demo: 'https://example.com'
+  },
+  {
+    id: 3,
+    title: 'Instagram Growth & Management',
+    category: 'Digital Marketing',
+    description: 'Handling Instagram accounts, content strategy, reels growth and engagement optimization',
+    color: 'from-pink-500 to-rose-500',
+    tags: ['Instagram', 'Content Strategy', 'Reels Growth'],
+    github: null,
+    demo: 'https://example.com'
+  },
+  {
+    id: 4,
+    title: 'Product Photography',
+    category: 'Creative Studio',
+    description: 'High-quality product photography for brands, e-commerce and social media',
+    color: 'from-yellow-500 to-orange-500',
+    tags: ['Photography', 'Product Shoot', 'Branding'],
+    github: null,
+    demo: 'https://example.com'
+  },
+  {
+    id: 5,
+    title: 'Dashboard Analytics',
+    category: 'Web App',
+    description: 'Real-time analytics dashboard with charts and data visualization',
+    color: 'from-green-500 to-teal-500',
+    tags: ['React', 'Django', 'PostgreSQL'],
+    github: 'https://github.com',
+    demo: 'https://example.com'
+  },
+  {
+    id: 6,
+    title: 'Brand Promotional Video',
+    category: 'Creative Studio',
+    description: 'Short promotional videos and reels for brand awareness and marketing',
+    color: 'from-red-500 to-pink-500',
+    tags: ['Videography', 'Reels', 'Brand Video'],
+    github: null,
+    demo: 'https://example.com'
+  },
+  {
+    id: 7,
+    title: 'Restaurant Website',
+    category: 'Web App',
+    description: 'Restaurant website with menu showcase and online ordering system',
+    color: 'from-amber-500 to-orange-500',
+    tags: ['React', 'Node.js', 'MongoDB'],
+    github: 'https://github.com',
+    demo: 'https://example.com'
+  },
+  {
+    id: 8,
+    title: 'Graphic Design for Social Media',
+    category: 'Creative Studio',
+    description: 'Eye-catching posters, banners and creatives for social media marketing',
+    color: 'from-indigo-500 to-purple-500',
+    tags: ['Graphic Design', 'Posters', 'Brand Creatives'],
+    github: null,
+    demo: 'https://example.com'
+  },
+  {
+    id: 9,
+    title: 'Fitness Tracking App',
+    category: 'Web App',
+    description: 'Fitness app with workout plans, progress tracking and user dashboard',
+    color: 'from-emerald-500 to-lime-500',
+    tags: ['React', 'Node.js', 'MongoDB'],
+    github: 'https://github.com',
+    demo: 'https://example.com'
+  },
+  {
+    id: 10,
+    title: 'Social Media Ads & Campaigns',
+    category: 'Digital Marketing',
+    description: 'Paid ad campaigns, audience targeting and performance tracking',
+    color: 'from-sky-500 to-blue-500',
+    tags: ['Meta Ads', 'Marketing', 'Lead Generation'],
+    github: null,
+    demo: 'https://example.com'
+  }
+];
+
 
   // Fetch projects from API
   useEffect(() => {
@@ -94,7 +135,7 @@ const Projects = () => {
     setLoading(false);
   };
 
-  const categories = ['All', 'Web App', 'Website', 'UI/UX'];
+  const categories = ['All','Creative Studio','Web App','Digital Marketing'];
 
   const filteredProjects = filter === 'All' 
     ? projects 
