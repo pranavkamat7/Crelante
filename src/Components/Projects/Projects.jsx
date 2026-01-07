@@ -152,34 +152,7 @@ const Projects = () => {
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
                     
                     {/* Overlay Icons */}
-                    <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-white rounded-full hover:bg-gray-100 transition-colors transform hover:scale-110"
-                        title="View Demo"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          alert('Demo link - In a real project, this would open the live demo!');
-                        }}
-                      >
-                        <ExternalLink className="text-gray-900" size={20} />
-                      </a>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-white rounded-full hover:bg-gray-100 transition-colors transform hover:scale-110"
-                        title="View Code"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          alert('GitHub link - In a real project, this would open the repository!');
-                        }}
-                      >
-                        <Github className="text-gray-900" size={20} />
-                      </a>
-                    </div>
+                    
                   </div>
 
                   {/* Project Content */}

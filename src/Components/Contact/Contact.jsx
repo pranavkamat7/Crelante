@@ -146,11 +146,9 @@ const Contact = () => {
             <form
               name="contact"
               method="POST"
-              data-netlify="true"
               onSubmit={handleSubmit}
               className="space-y-6"
             >
-              <input type="hidden" name="form-name" value="contact" />
 
               {/* Name Input */}
               <div>

@@ -41,7 +41,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
-              Crelante
+               <img src="./public/crelante.png" alt="Crelante Logo" className="w-8 h-8 mb-1 inline-block" /> Crelante
             </div>
             <p className="text-gray-400 mb-6 max-w-sm">
               Creating exceptional digital experiences that help businesses grow and succeed in the modern world.
