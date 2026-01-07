@@ -67,7 +67,7 @@ const Navbar = () => {
             onClick={() => scrollToSection('home')}
             className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:scale-105 transition-transform cursor-pointer"
           >
-            <img src="./public/crelante.png" alt="Crelante Logo" className="w-8 h-8 mb-1 inline-block" /> Crelante
+            <img src="/crelante.png" alt="Crelante Logo" className="w-8 h-8 mb-1 inline-block" /> Crelante
           </button>
           
           {/* Desktop Menu */}
