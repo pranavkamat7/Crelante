@@ -10,7 +10,7 @@ import Contact from "./Components/Contact/Contact";
 import Footer from "./Components/Footer/Footer";
 import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Admin/ProtectedRoute";
-import AdminLogin from "./Components/Admin/adminLogin";
+import AdminLogin from "./Components/Admin/AdminLogin.jsx";
 
 function App() {
   return (
