@@ -10,7 +10,7 @@ import Contact from "./Components/Contact/Contact";
 import Footer from "./Components/Footer/Footer";
 import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Admin/ProtectedRoute";
-import AdminLogin from "./Components/Admin/AdminLogin.jsx";
+import Login from "./Components/Admin/Login.jsx";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
         />
 
         {/* Admin Login */}
-        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin" element={<Login />} />
 
         {/* Admin Dashboard */}
         <Route
