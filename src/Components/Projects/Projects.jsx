@@ -19,7 +19,7 @@ const Projects = () => {
       color: "from-purple-500 to-pink-500",
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
-      demo: "https://example.com",
+      demo: "https://thedealdriven.com/",
     },
     {
       id: 2,
@@ -201,10 +201,13 @@ const Projects = () => {
             {/* Projects Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-                >
+                <a
+    key={project.id}
+    href={project.demo}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+  >
                   {/* Project Image */}
                   <div
                     className={`h-48 bg-gradient-to-br ${project.color} relative overflow-hidden`}
@@ -238,7 +241,7 @@ const Projects = () => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
             {filter === "All" && projects.length > PROJECTS_LIMIT && (
