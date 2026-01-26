@@ -111,6 +111,13 @@ const Contact = () => {
       description: "Mon-Fri from 8am to 5pm",
     },
     {
+      icon: <Phone className="w-6 h-6" />,
+      title: "Alternate Phone",
+      value: "+91 9284734606",
+      href: "tel:+91 9284734606",
+      description: "Mon-Fri from 8am to 5pm",
+    },
+    {
       icon: <MapPin className="w-6 h-6" />,
       title: "Office",
       value: "Canacona, Goa",
