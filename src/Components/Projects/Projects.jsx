@@ -20,6 +20,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://thedealdriven.com/",
+      src: "../../../public/ecommerce.png",
     },
     {
       id: 2,
@@ -202,17 +203,21 @@ const Projects = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProjects.map((project) => (
                 <a
-    key={project.id}
-    href={project.demo}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
-  >
+                  key={project.id}
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                >
                   {/* Project Image */}
                   <div
                     className={`h-48 bg-gradient-to-br ${project.color} relative overflow-hidden`}
                   >
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                    {project.src !== undefined ? (
+                      <img src={project.src} alt="img" />
+                    ) : (
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                    )}
 
                     {/* Overlay Icons */}
                   </div>
