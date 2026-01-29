@@ -92,7 +92,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://example.com",
-      src: "../../../public/restraurant.png",
+      src: "../../../public/restraurant.jpg",
     },
     {
       id: 8,
@@ -104,6 +104,7 @@ const Projects = () => {
       tags: ["Graphic Design", "Posters", "Brand Creatives"],
       github: null,
       demo: "https://example.com",
+      src: "../../../public/design.png",
     },
     {
       id: 9,
@@ -115,6 +116,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://example.com",
+      src: "../../../public/fitness.png",
     },
     {
       id: 10,
@@ -126,6 +128,7 @@ const Projects = () => {
       tags: ["Meta Ads", "Marketing", "Lead Generation"],
       github: null,
       demo: "https://example.com",
+      src: "../../../public/social_media.png",
     },
   ];
 
