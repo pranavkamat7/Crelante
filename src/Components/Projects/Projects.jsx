@@ -32,6 +32,7 @@ const Projects = () => {
       tags: ["React", "Tailwind", "Framer Motion"],
       github: "https://github.com",
       demo: "https://example.com",
+      src: "../../../public/business.png",
     },
     {
       id: 3,
