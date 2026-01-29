@@ -20,7 +20,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://thedealdriven.com/",
-      src: "../../../public/ecommerce.png",
+      src: "/../../../public/ecommerce.png",
     },
     {
       id: 2,
@@ -32,7 +32,7 @@ const Projects = () => {
       tags: ["React", "Tailwind", "Framer Motion"],
       github: "https://github.com",
       demo: "https://example.com",
-      src: "../../../public/business.png",
+      src: "/../../../public/business.png",
     },
     {
       id: 3,
@@ -44,7 +44,7 @@ const Projects = () => {
       tags: ["Instagram", "Content Strategy", "Reels Growth"],
       github: null,
       demo: "https://example.com",
-      src: "../../../public/instagram.png",
+      src: "/../../../public/instagram.png",
     },
     {
       id: 4,
@@ -56,7 +56,7 @@ const Projects = () => {
       tags: ["Photography", "Product Shoot", "Branding"],
       github: null,
       demo: "https://example.com",
-      src: "../../../public/photography.png",
+      src: "/../../../public/photography.png",
     },
     {
       id: 5,
@@ -68,7 +68,7 @@ const Projects = () => {
       tags: ["React", "Django", "PostgreSQL"],
       github: "https://github.com",
       demo: "https://example.com",
-      src: "../../../public/analytics.png",
+      src: "/../../../public/analytics.png",
     },
     {
       id: 6,
@@ -80,7 +80,7 @@ const Projects = () => {
       tags: ["Videography", "Reels", "Brand Video"],
       github: null,
       demo: "https://example.com",
-      src: "../../../public/brand.png",
+      src: "/../../../public/brand.png",
     },
     {
       id: 7,
@@ -92,7 +92,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://example.com",
-      src: "../../../public/restraurant.jpg",
+      src: "/../../../public/restraurant.jpg",
     },
     {
       id: 8,
@@ -104,7 +104,7 @@ const Projects = () => {
       tags: ["Graphic Design", "Posters", "Brand Creatives"],
       github: null,
       demo: "https://example.com",
-      src: "../../../public/design.png",
+      src: "/../../../public/design.png",
     },
     {
       id: 9,
@@ -116,7 +116,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://example.com",
-      src: "../../../public/fitness.png",
+      src: "/../../../public/fitness.png",
     },
     {
       id: 10,
@@ -128,7 +128,7 @@ const Projects = () => {
       tags: ["Meta Ads", "Marketing", "Lead Generation"],
       github: null,
       demo: "https://example.com",
-      src: "../../../public/social_media.png",
+      src: "/../../../public/social_media.png",
     },
   ];
 
