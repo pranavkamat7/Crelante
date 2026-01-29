@@ -56,6 +56,7 @@ const Projects = () => {
       tags: ["Photography", "Product Shoot", "Branding"],
       github: null,
       demo: "https://example.com",
+      src: "../../../public/photography.png",
     },
     {
       id: 5,
@@ -67,6 +68,7 @@ const Projects = () => {
       tags: ["React", "Django", "PostgreSQL"],
       github: "https://github.com",
       demo: "https://example.com",
+      src: "../../../public/analytics.png",
     },
     {
       id: 6,
@@ -78,6 +80,7 @@ const Projects = () => {
       tags: ["Videography", "Reels", "Brand Video"],
       github: null,
       demo: "https://example.com",
+      src: "../../../public/brand.png",
     },
     {
       id: 7,
@@ -89,6 +92,7 @@ const Projects = () => {
       tags: ["React", "Node.js", "MongoDB"],
       github: "https://github.com",
       demo: "https://example.com",
+      src: "../../../public/restraurant.png",
     },
     {
       id: 8,
