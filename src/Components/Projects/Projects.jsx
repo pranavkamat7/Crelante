@@ -44,6 +44,7 @@ const Projects = () => {
       tags: ["Instagram", "Content Strategy", "Reels Growth"],
       github: null,
       demo: "https://example.com",
+      src: "../../../public/instagram.png",
     },
     {
       id: 4,
