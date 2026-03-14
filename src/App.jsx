@@ -12,31 +12,26 @@ import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Admin/ProtectedRoute";
 import Login from "./Components/Admin/Login.jsx";
 
+function HomePage() {
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <About />
+      <Services />
+      <Projects />
+      <Contact />
+      <Footer />
+    </>
+  );
+}
+
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-
       <Routes>
-        {/* Public Website */}
-        <Route
-          path="/"
-          element={
-            <>
-              <Navbar />
-              <Hero />
-              <About />
-              <Services />
-              <Projects />
-              <Contact />
-              <Footer />
-            </>
-          }
-        />
-
-        {/* Admin Login */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/admin" element={<Login />} />
-
-        {/* Admin Dashboard */}
         <Route
           path="/admin/dashboard"
           element={
@@ -46,7 +41,6 @@ function App() {
           }
         />
       </Routes>
-
     </div>
   );
 }
