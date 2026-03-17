@@ -32,7 +32,7 @@ const Stat = ({ number, label, delay, active }) => {
   const count = useCounter(parseInt(number), 2200, active);
   const suffix = number.includes('%') ? '%' : number.includes('+') ? '+' : '';
   return (
-    <div className="crh-stat" style={{ transitionDelay: `${delay}ms` }}>
+    <div className="crh-stat on" style={{ transitionDelay: `${delay}ms` }}>
       <div className="crh-stat-n">{count}{suffix}</div>
       <div className="crh-stat-l">{label}</div>
     </div>
@@ -88,7 +88,6 @@ const ParticleNet = () => {
         x: Math.random() * W, y: Math.random() * H,
         vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
         r: Math.random() * 1.8 + 0.4, a: Math.random() * 0.55 + 0.15,
-        // Alternate pink/blue from logo
         hue: Math.random() > 0.5 ? 'pink' : 'blue',
       }));
     };
@@ -108,7 +107,6 @@ const ParticleNet = () => {
           const ex = pts[j].x - p.x, ey = pts[j].y - p.y, ed = Math.sqrt(ex*ex+ey*ey);
           if (ed < 140) {
             const alpha = 0.25 * (1 - ed / 140);
-            // Gradient line pink→blue matching logo
             const grad = ctx.createLinearGradient(p.x, p.y, pts[j].x, pts[j].y);
             grad.addColorStop(0, `rgba(240,32,184,${alpha})`);
             grad.addColorStop(1, `rgba(58,184,245,${alpha})`);
@@ -158,15 +156,13 @@ const Typewriter = ({ go }) => {
    HERO
 ══════════════════════════════════════════ */
 const Hero = () => {
-  const [on, setOn]       = useState(false);
-  const [stats, setStats] = useState(false);
+  const [on, setOn] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
+    // Trigger both hero reveal AND stats counter together after mount
     const t = setTimeout(() => setOn(true), 100);
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStats(true); }, { threshold: 0.25 });
-    if (ref.current) obs.observe(ref.current);
-    return () => { clearTimeout(t); obs.disconnect(); };
+    return () => clearTimeout(t);
   }, []);
 
   const go = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -239,21 +235,6 @@ const Hero = () => {
           mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 15%, transparent 85%);
         }
 
-        /* Corner grid accent lines */
-        .crh-corner {
-          position: absolute; pointer-events: none; z-index: 2;
-          width: 80px; height: 80px;
-          opacity: 0.35;
-        }
-        .crh-corner-tl { top: 40px; left: 40px;
-          border-top: 1px solid var(--pink); border-left: 1px solid var(--pink); border-radius: 2px 0 0 0; }
-        .crh-corner-tr { top: 40px; right: 40px;
-          border-top: 1px solid var(--blue); border-right: 1px solid var(--blue); border-radius: 0 2px 0 0; }
-        .crh-corner-bl { bottom: 40px; left: 40px;
-          border-bottom: 1px solid var(--blue); border-left: 1px solid var(--blue); border-radius: 0 0 0 2px; }
-        .crh-corner-br { bottom: 40px; right: 40px;
-          border-bottom: 1px solid var(--pink); border-right: 1px solid var(--pink); border-radius: 0 0 2px 0; }
-
         .crh-aurora   { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
         .crh-particles{ position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; pointer-events: none; }
 
@@ -296,7 +277,6 @@ const Hero = () => {
           backdrop-filter: blur(10px);
           overflow: hidden;
         }
-        /* Shimmer sweep on eyebrow */
         .crh-eyebrow::after {
           content: '';
           position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
@@ -328,7 +308,6 @@ const Hero = () => {
           text-shadow: 0 0 60px rgba(240,32,184,0.15);
         }
 
-        /* "Crelante" with pink-to-blue gradient like logo */
         .crh-brand {
           background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 50%, var(--blue) 100%);
           -webkit-background-clip: text;
@@ -340,7 +319,6 @@ const Hero = () => {
         }
         @keyframes brandShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
 
-        /* Typewriter line */
         .crh-h1-l2 {
           display: block;
           font-size: clamp(1.8rem, 5.5vw, 3.8rem);
@@ -389,7 +367,6 @@ const Hero = () => {
           justify-content: center; margin-bottom: 80px;
         }
 
-        /* Primary: pink→blue gradient from logo */
         .crh-btn-p {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
@@ -427,7 +404,6 @@ const Hero = () => {
         }
         .crh-btn-p:hover .crh-arrow { transform: translateX(5px); }
 
-        /* Secondary: outlined, glows pink on hover */
         .crh-btn-s {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
@@ -466,13 +442,11 @@ const Hero = () => {
           backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           position: relative;
         }
-        /* Top glow line */
         .crh-stats-g::before {
           content: '';
           position: absolute; top:0; left:0; right:0; height:1px;
           background: linear-gradient(90deg, transparent 0%, var(--pink) 30%, var(--blue) 70%, transparent 100%);
         }
-        /* Bottom glow line */
         .crh-stats-g::after {
           content: '';
           position: absolute; bottom:0; left:0; right:0; height:1px;
@@ -485,6 +459,7 @@ const Hero = () => {
           opacity: 0; transform: translateY(14px);
           transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s ease;
         }
+        /* Stats always visible — .on is set directly on element */
         .crh-stat.on { opacity: 1; transform: translateY(0); }
         .crh-stat + .crh-stat { border-left: 1px solid rgba(255,255,255,0.05); }
         .crh-stat:hover { background: rgba(240,32,184,0.05); }
@@ -496,7 +471,6 @@ const Hero = () => {
           font-weight: 800; letter-spacing: -0.03em;
           line-height: 1; margin-bottom: 6px;
         }
-        /* Alternating pink/blue from logo */
         .crh-stat:nth-child(odd)  .crh-stat-n {
           background: linear-gradient(135deg, var(--pink), var(--violet));
           -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
@@ -556,7 +530,6 @@ const Hero = () => {
         .crh-fc-val   { font-size:0.73rem;font-weight:500;color:rgba(230,225,255,0.9); }
         .crh-fc-sep   { width:1px;height:28px;background:rgba(255,255,255,0.07); }
 
-        /* Bar chart mini inside IoT card */
         .crh-bars { display:flex;align-items:flex-end;gap:2px;height:20px; }
         .crh-bar  { width:3px;border-radius:1px;animation:barGrow 2s ease-in-out infinite alternate; }
         @keyframes barGrow{0%{transform:scaleY(0.7);}100%{transform:scaleY(1);}}
@@ -738,13 +711,13 @@ const Hero = () => {
           <div className={`crh-stats crh-reveal ${on?'on':''}`} style={{ transitionDelay:'430ms' }}>
             <div className="crh-stats-g">
               {statData.map((s,i)=>(
-                <Stat key={i} number={s.number} label={s.label} delay={i*100} active={stats} />
+                <Stat key={i} number={s.number} label={s.label} delay={i*100} active={on} />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Scroll */}
+        {/* Scroll indicator */}
         <div className={`crh-scroll ${on?'on':''}`} onClick={()=>go('about')}>
           <div className="crh-scroll-pill">
             <div className="crh-scroll-d"/>
