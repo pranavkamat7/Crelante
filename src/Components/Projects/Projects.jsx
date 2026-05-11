@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ExternalLink, Github, Loader2, ArrowRight, RefreshCw, Zap } from "lucide-react";
+import { ExternalLink, Github, Loader2, ArrowRight, RefreshCw } from "lucide-react";
 
 /* ── Intersection observer hook ── */
 const useInView = (threshold = 0.05) => {
@@ -16,187 +16,111 @@ const useInView = (threshold = 0.05) => {
   return [ref, visible];
 };
 
-/* ── Fallback projects — updated for software/IoT/SaaS ── */
+/* ── Projects Data ── */
 const FALLBACK = [
   {
     id: 1,
-    title: "E-Commerce Platform",
+    title: "VectorShift",
     category: "Web App",
-    description: "Full-featured online store with payment integration, inventory management and live admin dashboard.",
-    tags: ["React", "Node.js", "MongoDB"],
+    description: "Complex workflow application featuring robust frontend components and backend logic for Directed Acyclic Graph (DAG) cycle detection.",
+    tags: ["React", "FastAPI", "Python"],
     github: "https://github.com",
-    demo: "https://thedealdriven.com/",
-    src: "/ecommerce.png",
-    accent: "pink",
+    demo: "https://example.com",
+    src: "/business.png",
   },
   {
     id: 2,
-    title: "IoT Fleet Monitor",
-    category: "IoT",
-    description: "Real-time dashboard tracking 500+ connected sensors with alerts, analytics and edge data processing.",
-    tags: ["MQTT", "React", "Node.js", "Charts"],
+    title: "The Deal Driven",
+    category: "Web App",
+    description: "High-performance e-commerce deployment featuring seamless DNS propagation, custom environment configurations, and optimized hosting.",
+    tags: ["React", "Node.js", "Netlify"],
     github: "https://github.com",
-    demo: "https://example.com",
-    src: "/analytics.png",
-    accent: "blue",
+    demo: "https://thedealdriven.com/",
+    src: "/ecommerce.png",
   },
   {
     id: 3,
-    title: "SaaS Analytics Dashboard",
+    title: "Healthy Mithai Integration",
     category: "SaaS",
-    description: "Multi-tenant analytics platform with custom reports, billing, role-based access and API integrations.",
-    tags: ["Next.js", "PostgreSQL", "Stripe", "Auth"],
-    github: null,
-    demo: "https://example.com",
-    src: "/business.png",
-    accent: "violet",
-  },
-  {
-    id: 4,
-    title: "Restaurant Management System",
-    category: "Web App",
-    description: "End-to-end restaurant platform with online ordering, kitchen display, table management and POS.",
-    tags: ["React", "Node.js", "MongoDB"],
-    github: "https://github.com",
-    demo: "https://example.com",
-    src: "/restraurant.jpg",
-    accent: "blue",
-  },
-  {
-    id: 5,
-    title: "Smart Home Controller",
-    category: "IoT",
-    description: "Mobile + web app to control smart home devices, automations and energy usage in real time.",
-    tags: ["Embedded C", "MQTT", "React Native", "AWS"],
-    github: null,
-    demo: "https://example.com",
-    src: "/fitness.png",
-    accent: "pink",
-  },
-  {
-    id: 6,
-    title: "CRM SaaS Platform",
-    category: "SaaS",
-    description: "Customer relationship management tool with pipelines, email automation, and team collaboration.",
-    tags: ["Vue.js", "Django", "PostgreSQL", "Redis"],
-    github: "https://github.com",
-    demo: "https://example.com",
-    src: "/social_media.png",
-    accent: "violet",
-  },
-  {
-    id: 7,
-    title: "Fitness Tracking App",
-    category: "Web App",
-    description: "Fitness app with AI-powered workout plans, progress tracking, nutrition logging and community.",
-    tags: ["React", "Node.js", "MongoDB"],
-    github: "https://github.com",
-    demo: "https://example.com",
-    src: "/fitness.png",
-    accent: "blue",
-  },
-  {
-    id: 8,
-    title: "Industrial IoT Gateway",
-    category: "IoT",
-    description: "Edge computing gateway that aggregates sensor data from factory floors and streams to the cloud.",
-    tags: ["C++", "Python", "MQTT", "Docker"],
+    description: "Custom Shopify application integrating internal systems via secure API credentialing for streamlined store management.",
+    tags: ["Shopify API", "Node.js", "React"],
     github: null,
     demo: "https://example.com",
     src: "/analytics.png",
-    accent: "pink",
   },
   {
-    id: 9,
-    title: "HR Management SaaS",
-    category: "SaaS",
-    description: "Complete HR platform — attendance, payroll, leave management, onboarding and performance reviews.",
-    tags: ["React", "Node.js", "PostgreSQL", "Auth"],
+    id: 4,
+    title: "IoT Fleet Monitor",
+    category: "IoT",
+    description: "Real-time dashboard tracking connected sensors with alerts, analytics, and edge data processing.",
+    tags: ["MQTT", "React", "Dashboards"],
     github: "https://github.com",
     demo: "https://example.com",
-    src: "/business.png",
-    accent: "violet",
+    src: "/analytics.png",
   },
   {
-    id: 10,
-    title: "Inventory Management System",
-    category: "Web App",
-    description: "Real-time inventory tracking with barcode scanning, supplier management and automated reordering.",
-    tags: ["Next.js", "TypeScript", "PostgreSQL"],
-    github: "https://github.com",
+    id: 5,
+    title: "Performance Ad Campaigns",
+    category: "Digital Ads",
+    description: "Data-driven marketing campaigns focused on high conversion rates and audience retargeting across Meta and Google.",
+    tags: ["Meta Ads", "Google Ads", "Analytics"],
+    github: null,
     demo: "https://example.com",
-    src: "/ecommerce.png",
-    accent: "blue",
+    src: "/social_media.png",
+  },
+  {
+    id: 6,
+    title: "Smart Home Controller",
+    category: "IoT",
+    description: "Web application to control smart home devices, automations, and energy usage in real time.",
+    tags: ["Embedded C", "AWS", "React Native"],
+    github: null,
+    demo: "https://example.com",
+    src: "/fitness.png",
   },
 ];
 
-const CATEGORIES = ["All", "Web App", "IoT", "SaaS"];
+const CATEGORIES = ["All", "Web App", "IoT", "SaaS", "Digital Ads"];
 const LIMIT = 6;
-
-/* ── accent helpers ── */
-const ACCENTS = {
-  pink:   { border: 'rgba(240,32,184,0.28)',  bg: 'rgba(240,32,184,0.06)',  glow: 'rgba(240,32,184,0.12)', tag: 'rgba(240,32,184,0.12)',  tagText: 'rgba(240,130,210,0.85)', tagBorder: 'rgba(240,32,184,0.2)',  dot: '#f020b8', label: 'rgba(240,120,210,0.75)' },
-  blue:   { border: 'rgba(58,184,245,0.28)',   bg: 'rgba(58,184,245,0.06)',   glow: 'rgba(58,184,245,0.12)',  tag: 'rgba(58,184,245,0.1)',   tagText: 'rgba(100,210,250,0.85)', tagBorder: 'rgba(58,184,245,0.2)',   dot: '#3ab8f5', label: 'rgba(100,210,250,0.75)' },
-  violet: { border: 'rgba(123,47,255,0.28)',   bg: 'rgba(123,47,255,0.06)',   glow: 'rgba(123,47,255,0.12)',  tag: 'rgba(123,47,255,0.1)',   tagText: 'rgba(180,140,255,0.85)', tagBorder: 'rgba(123,47,255,0.2)',   dot: '#7b2fff', label: 'rgba(180,140,255,0.75)' },
-};
 
 /* ── Project Card ── */
 const ProjectCard = ({ project, index, visible }) => {
-  const [hov, setHov] = useState(false);
-  const a = ACCENTS[project.accent];
-
   return (
     <div
-      className="pj-card"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(28px)',
-        transition: `opacity 0.65s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms`,
-        borderColor: hov ? a.border : 'rgba(255,255,255,0.06)',
-        background: hov ? a.bg : 'rgba(255,255,255,0.022)',
-        boxShadow: hov ? `0 20px 60px ${a.glow}` : 'none',
-      }}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
+      className={`pj-card ${visible ? 'pj-in' : ''}`}
+      style={{ transitionDelay: `${index * 80}ms` }}
     >
-      {/* Top line beam on hover */}
-      <div className="pj-card-beam" style={{
-        background: `linear-gradient(90deg, transparent, ${a.dot}, transparent)`,
-        opacity: hov ? 1 : 0,
-      }} />
+      {/* Top line accent on hover */}
+      <div className="pj-card-line" />
 
       {/* Image area */}
-      <div className="pj-img-wrap" style={{ borderColor: hov ? a.border : 'rgba(255,255,255,0.05)' }}>
+      <div className="pj-img-wrap">
         <img
           src={project.src}
           alt={project.title}
           className="pj-img"
           onError={e => { e.target.style.display = 'none'; }}
         />
-        {/* Gradient overlay */}
-        <div className="pj-img-overlay" style={{
-          background: `linear-gradient(to top, rgba(8,7,26,0.85) 0%, rgba(8,7,26,0.2) 60%, transparent 100%)`,
-        }} />
+        
         {/* Category badge */}
-        <div className="pj-cat-badge" style={{ background: a.tag, borderColor: a.tagBorder, color: a.tagText }}>
+        <div className="pj-cat-badge">
           {project.category}
         </div>
+        
         {/* Action icons */}
-        <div className="pj-actions" style={{ opacity: hov ? 1 : 0 }}>
+        <div className="pj-actions">
           {project.github && (
             <a href={project.github} target="_blank" rel="noopener noreferrer"
               className="pj-action-btn"
               onClick={e => e.stopPropagation()}
-              style={{ borderColor: 'rgba(255,255,255,0.15)' }}
             >
-              <Github size={15} />
+              <Github size={16} />
             </a>
           )}
           <a href={project.demo} target="_blank" rel="noopener noreferrer"
-            className="pj-action-btn"
-            style={{ background: a.dot, border: 'none' }}
+            className="pj-action-btn pj-action-primary"
           >
-            <ExternalLink size={15} />
+            <ExternalLink size={16} />
           </a>
         </div>
       </div>
@@ -209,20 +133,16 @@ const ProjectCard = ({ project, index, visible }) => {
         {/* Tags */}
         <div className="pj-tags">
           {project.tags.map((t, i) => (
-            <span key={i} className="pj-tag"
-              style={{ background: a.tag, color: a.tagText, borderColor: a.tagBorder }}>
+            <span key={i} className="pj-tag">
               {t}
             </span>
           ))}
         </div>
 
         {/* Link */}
-        <div className="pj-link" style={{ color: a.label }}>
+        <div className="pj-link">
           <span>View Project</span>
-          <ArrowRight size={13} style={{
-            transform: hov ? 'translateX(5px)' : 'translateX(0)',
-            transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)',
-          }} />
+          <ArrowRight className="pj-link-arrow" size={16} />
         </div>
       </div>
     </div>
@@ -239,7 +159,7 @@ const Projects = () => {
 
   const load = async () => {
     setLoading(true);
-    await new Promise(r => setTimeout(r, 900));
+    await new Promise(r => setTimeout(r, 600));
     setProjects(FALLBACK);
     setLoading(false);
   };
@@ -256,407 +176,514 @@ const Projects = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
 
+        /* ── Core Theme Colors ── */
         .pj-section {
-          --pink:   #f020b8;
-          --blue:   #3ab8f5;
-          --violet: #7b2fff;
-          --bg:     #08071a;
-          --text:   #f0eeff;
-          --muted:  rgba(210,200,255,0.52);
+          --crn-black: #0A0A0A;
+          --crn-white: #FFFFFF;
+          --crn-bg: #FFFFFF; /* Using pure white to alternate from Services */
+          --crn-orange: #FF4E25;
+          --crn-gray: #E5E5E5;
+          --crn-text-gray: #666666;
 
           position: relative;
-          background: var(--bg);
-          padding: 120px 24px 130px;
+          background: var(--crn-bg);
+          padding: 140px 24px;
           overflow: hidden;
-        }
-
-        /* Top beam */
-        .pj-section::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(240,32,184,0.5) 30%, rgba(58,184,245,0.5) 70%, transparent);
-        }
-
-        /* BG */
-        .pj-bg {
-          position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background:
-            radial-gradient(ellipse 50% 40% at 5%  30%, rgba(240,32,184,0.06) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 40% at 95% 70%, rgba(58,184,245,0.06)  0%, transparent 60%),
-            radial-gradient(ellipse 40% 35% at 50% 50%, rgba(123,47,255,0.04)  0%, transparent 60%);
-        }
-        .pj-grid-bg {
-          position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background-image:
-            linear-gradient(rgba(240,32,184,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(58,184,245,0.03) 1px, transparent 1px);
-          background-size: 64px 64px;
-          mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 10%, transparent 90%);
+          border-top: 1px solid var(--crn-gray);
         }
 
         /* ── HEADER ── */
         .pj-header {
-          position: relative; z-index: 2;
-          text-align: center; max-width: 680px;
+          position: relative; 
+          z-index: 2;
+          text-align: center; 
+          max-width: 680px;
           margin: 0 auto 56px;
-          opacity: 0; transform: translateY(22px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          opacity: 0; 
+          transform: translateY(20px);
+          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
         }
         .pj-header.pj-in { opacity: 1; transform: translateY(0); }
 
         .pj-label {
-          display: inline-flex; align-items: center; gap: 8px;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.65rem; font-weight: 500;
-          letter-spacing: 0.15em; text-transform: uppercase;
-          color: rgba(240,120,210,0.8); margin-bottom: 18px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 12px;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.75rem; 
+          font-weight: 800;
+          letter-spacing: 0.1em; 
+          text-transform: uppercase;
+          padding: 8px 20px;
+          border-radius: 50px;
+          margin-bottom: 24px;
+          background: var(--crn-white);
+          border: 1px solid var(--crn-gray);
+          color: var(--crn-black);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
-        .pj-label-bar  { width:28px; height:1px; background: linear-gradient(90deg, var(--pink), transparent); }
-        .pj-label-bar-r{ width:28px; height:1px; background: linear-gradient(90deg, transparent, var(--blue)); }
+        
+        .pj-label-dot {
+          width: 8px; height: 8px; 
+          border-radius: 50%;
+          background: var(--crn-orange); 
+        }
 
         .pj-h2 {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(2.2rem, 5vw, 3.5rem);
-          font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
-          color: var(--text); margin-bottom: 16px;
+          font-size: clamp(2.8rem, 5vw, 4rem);
+          font-weight: 800; 
+          letter-spacing: -0.03em; 
+          line-height: 1.05;
+          color: var(--crn-black); 
+          margin-bottom: 24px;
         }
-        .pj-h2-grad {
-          background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 50%, var(--blue) 100%);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-          background-clip: text; background-size: 200% 200%;
-          animation: pgFlow 5s ease infinite;
+        
+        .pj-h2-accent {
+          color: var(--crn-orange);
         }
-        @keyframes pgFlow { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+
+        .pj-underline {
+          width: 60px;
+          height: 6px;
+          background: var(--crn-black);
+          margin: 0 auto 24px;
+          border-radius: 4px;
+        }
 
         .pj-sub {
           font-family: 'Manrope', sans-serif;
-          font-size: 1rem; line-height: 1.7; color: var(--muted);
+          font-size: 1.1rem; 
+          font-weight: 500; 
+          line-height: 1.6;
+          color: var(--crn-text-gray);
         }
 
         /* ── FILTERS ── */
         .pj-filters {
-          display: flex; flex-wrap: wrap;
-          justify-content: center; gap: 8px;
-          margin-top: 28px;
+          display: flex; 
+          flex-wrap: wrap;
+          justify-content: center; 
+          gap: 12px;
+          margin-top: 32px;
         }
 
         .pj-filter-btn {
-          position: relative; overflow: hidden;
           font-family: 'Manrope', sans-serif;
-          font-size: 0.78rem; font-weight: 700;
-          letter-spacing: 0.06em; text-transform: uppercase;
-          padding: 8px 20px; border-radius: 10px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: rgba(255,255,255,0.03);
-          color: rgba(190,185,240,0.6);
+          font-size: 0.85rem; 
+          font-weight: 800;
+          letter-spacing: 0.05em; 
+          text-transform: uppercase;
+          padding: 10px 24px; 
+          border-radius: 8px;
+          border: 1px solid var(--crn-gray);
+          background: var(--crn-white);
+          color: var(--crn-text-gray);
           cursor: pointer;
-          transition: all 0.25s ease;
+          transition: all 0.2s ease;
         }
         .pj-filter-btn:hover {
-          color: rgba(210,205,255,0.9);
-          border-color: rgba(255,255,255,0.15);
-          background: rgba(255,255,255,0.06);
+          border-color: var(--crn-black);
+          color: var(--crn-black);
         }
         .pj-filter-btn.active {
-          color: #fff;
-          background: linear-gradient(135deg, var(--pink), var(--violet), var(--blue));
-          background-size: 200% 200%;
-          animation: filterGrad 4s ease infinite;
-          border-color: transparent;
-          box-shadow: 0 6px 24px rgba(240,32,184,0.3);
+          color: var(--crn-white);
+          background: var(--crn-black);
+          border-color: var(--crn-black);
         }
-        @keyframes filterGrad { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
 
         /* ── LOADING ── */
         .pj-loading {
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          padding: 80px 0; gap: 16px;
-          position: relative; z-index: 2;
+          display: flex; 
+          flex-direction: column;
+          align-items: center; 
+          justify-content: center;
+          padding: 80px 0; 
+          gap: 16px;
         }
         .pj-spinner {
-          width: 44px; height: 44px;
+          width: 40px; height: 40px;
           border-radius: 50%;
-          border: 2px solid rgba(240,32,184,0.15);
-          border-top-color: var(--pink);
-          border-right-color: var(--blue);
-          animation: spin 0.9s linear infinite;
+          border: 3px solid var(--crn-gray);
+          border-top-color: var(--crn-orange);
+          animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .pj-loading-txt {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.7rem; letter-spacing: 0.12em;
-          text-transform: uppercase; color: var(--muted);
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.85rem; 
+          font-weight: 800;
+          text-transform: uppercase; 
+          color: var(--crn-text-gray);
         }
 
         /* ── GRID ── */
         .pj-grid {
-          position: relative; z-index: 2;
-          max-width: 1200px; margin: 0 auto;
-          display: grid; grid-template-columns: repeat(3,1fr);
-          gap: 16px;
+          max-width: 1200px; 
+          margin: 0 auto;
+          display: grid; 
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
         }
 
         /* ── CARD ── */
         .pj-card {
-          position: relative; overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 20px;
-          display: flex; flex-direction: column;
+          position: relative; 
+          background: var(--crn-white);
+          border: 1px solid var(--crn-gray);
+          border-radius: 16px;
+          display: flex; 
+          flex-direction: column;
           cursor: pointer;
-          transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+          opacity: 0; 
+          transform: translateY(24px);
+          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.8, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .pj-card:hover { transform: translateY(-6px); }
+        .pj-card.pj-in { opacity: 1; transform: translateY(0); }
+        
+        .pj-card:hover {
+          border-color: var(--crn-black);
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+        }
 
-        .pj-card-beam {
-          position: absolute; top: 0; left: 8%; right: 8%; height: 1px;
-          border-radius: 0 0 4px 4px; pointer-events: none;
-          transition: opacity 0.3s ease;
+        /* Top Accent Line */
+        .pj-card-line {
+          position: absolute;
+          top: -1px; left: 24px; right: 24px;
+          height: 3px;
+          background: var(--crn-black);
+          border-radius: 0 0 4px 4px;
+          transform: scaleX(0);
+          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
+          z-index: 10;
+        }
+        .pj-card:hover .pj-card-line {
+          transform: scaleX(1);
+          background: var(--crn-orange);
         }
 
         /* Image */
         .pj-img-wrap {
-          position: relative; height: 190px; overflow: hidden;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-          background: rgba(255,255,255,0.02);
-          transition: border-color 0.3s ease;
+          position: relative; 
+          height: 220px; 
+          overflow: hidden;
+          border-bottom: 1px solid var(--crn-gray);
+          border-radius: 16px 16px 0 0;
+          background: #F9F8F6;
         }
         .pj-img {
-          width: 100%; height: 100%; object-fit: cover;
-          transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+          width: 100%; 
+          height: 100%; 
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .pj-card:hover .pj-img { transform: scale(1.06); }
-        .pj-img-overlay {
-          position: absolute; inset: 0; pointer-events: none;
-        }
+        .pj-card:hover .pj-img { transform: scale(1.05); }
 
         /* Category badge */
         .pj-cat-badge {
-          position: absolute; top: 12px; left: 12px;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.58rem; font-weight: 500;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          padding: 4px 10px; border-radius: 8px;
-          border: 1px solid;
-          backdrop-filter: blur(8px);
+          position: absolute; 
+          top: 16px; 
+          left: 16px;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.7rem; 
+          font-weight: 800;
+          letter-spacing: 0.05em; 
+          text-transform: uppercase;
+          padding: 6px 12px; 
+          border-radius: 8px;
+          background: var(--crn-white);
+          color: var(--crn-black);
+          border: 1px solid var(--crn-gray);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         /* Action icons */
         .pj-actions {
-          position: absolute; top: 12px; right: 12px;
-          display: flex; gap: 7px;
-          transition: opacity 0.25s ease;
+          position: absolute; 
+          top: 16px; 
+          right: 16px;
+          display: flex; 
+          gap: 8px;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
         }
+        .pj-card:hover .pj-actions {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
         .pj-action-btn {
-          width: 30px; height: 30px; border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
-          color: #fff; background: rgba(0,0,0,0.5);
-          border: 1px solid;
-          backdrop-filter: blur(8px);
-          text-decoration: none;
-          transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+          width: 36px; height: 36px; 
+          border-radius: 8px;
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          background: var(--crn-white);
+          color: var(--crn-black);
+          border: 1px solid var(--crn-gray);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+          transition: transform 0.2s cubic-bezier(0.8, 0, 0.2, 1), background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
-        .pj-action-btn:hover { transform: scale(1.15); }
+        .pj-action-btn:hover { 
+          transform: scale(1.1); 
+        }
+        .pj-action-primary {
+          background: var(--crn-black);
+          color: var(--crn-white);
+          border-color: var(--crn-black);
+        }
+        .pj-action-primary:hover {
+          background: var(--crn-orange);
+          border-color: var(--crn-orange);
+        }
 
         /* Content */
-        .pj-content { padding: 20px 20px 18px; flex: 1; display: flex; flex-direction: column; gap: 0; }
+        .pj-content { 
+          padding: 24px; 
+          flex: 1; 
+          display: flex; 
+          flex-direction: column; 
+        }
 
         .pj-title {
           font-family: 'Syne', sans-serif;
-          font-size: 1.05rem; font-weight: 800;
-          letter-spacing: -0.02em; color: var(--text);
-          margin-bottom: 8px; line-height: 1.2;
+          font-size: 1.25rem; 
+          font-weight: 800;
+          letter-spacing: -0.02em; 
+          color: var(--crn-black);
+          margin-bottom: 8px; 
+          line-height: 1.2;
         }
         .pj-desc {
           font-family: 'Manrope', sans-serif;
-          font-size: 0.8rem; font-weight: 400; line-height: 1.65;
-          color: rgba(185,180,230,0.55);
-          margin-bottom: 14px; flex: 1;
+          font-size: 0.95rem; 
+          font-weight: 500; 
+          line-height: 1.6;
+          color: var(--crn-text-gray);
+          margin-bottom: 20px; 
+          flex: 1;
         }
 
         /* Tags */
-        .pj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+        .pj-tags { 
+          display: flex; 
+          flex-wrap: wrap; 
+          gap: 8px; 
+          margin-bottom: 24px; 
+        }
         .pj-tag {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.57rem; font-weight: 500;
-          letter-spacing: 0.07em; text-transform: uppercase;
-          padding: 3px 8px; border-radius: 6px; border: 1px solid;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.7rem; 
+          font-weight: 700;
+          letter-spacing: 0.05em; 
+          text-transform: uppercase;
+          padding: 6px 12px; 
+          border-radius: 6px; 
+          background: #F9F8F6;
+          color: var(--crn-text-gray);
+          border: 1px solid var(--crn-gray);
+          transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .pj-card:hover .pj-tag {
+          border-color: var(--crn-black);
+          color: var(--crn-black);
         }
 
         /* Link */
         .pj-link {
-          display: inline-flex; align-items: center; gap: 6px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 8px;
           font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; font-weight: 700;
-          letter-spacing: 0.04em;
-          margin-top: auto;
+          font-size: 0.9rem; 
+          font-weight: 800;
+          color: var(--crn-black);
+          transition: color 0.3s ease;
         }
+        .pj-link-arrow {
+          color: var(--crn-orange);
+          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        .pj-card:hover .pj-link { color: var(--crn-orange); }
+        .pj-card:hover .pj-link-arrow { transform: translateX(6px); }
 
-        /* ── BOTTOM ROW ── */
+        /* ── BOTTOM ACTIONS ── */
         .pj-bottom {
-          position: relative; z-index: 2;
-          max-width: 1200px; margin: 40px auto 0;
-          display: flex; flex-wrap: wrap;
-          align-items: center; justify-content: center; gap: 12px;
+          max-width: 1200px; 
+          margin: 48px auto 0;
+          display: flex; 
+          flex-wrap: wrap;
+          align-items: center; 
+          justify-content: center; 
+          gap: 16px;
         }
 
         .pj-toggle-btn {
-          position: relative; overflow: hidden;
-          display: inline-flex; align-items: center; gap: 8px;
           font-family: 'Manrope', sans-serif;
-          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em;
-          color: rgba(200,195,250,0.8);
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.09);
-          padding: 11px 24px; border-radius: 12px;
+          font-size: 0.9rem; 
+          font-weight: 800; 
+          letter-spacing: 0.05em;
+          color: var(--crn-black);
+          background: var(--crn-white);
+          border: 2px solid var(--crn-black);
+          padding: 14px 28px; 
+          border-radius: 10px;
           cursor: pointer;
           transition: all 0.3s ease;
         }
         .pj-toggle-btn:hover {
-          border-color: rgba(240,32,184,0.35);
-          color: #f0eeff;
-          background: rgba(240,32,184,0.06);
-          box-shadow: 0 6px 20px rgba(240,32,184,0.1);
+          background: var(--crn-black);
+          color: var(--crn-white);
+          transform: translateY(-2px);
         }
 
         .pj-cta-btn {
-          position: relative; overflow: hidden;
-          display: inline-flex; align-items: center; gap: 9px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 10px;
           font-family: 'Manrope', sans-serif;
-          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em;
-          color: #fff;
-          background: linear-gradient(135deg, var(--pink), var(--violet), var(--blue));
-          background-size: 200% 200%; animation: pgFlow 4s ease infinite;
-          border: none; cursor: pointer; text-decoration: none;
-          padding: 12px 26px; border-radius: 12px;
-          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+          font-size: 0.9rem; 
+          font-weight: 800; 
+          letter-spacing: 0.05em;
+          color: var(--crn-white);
+          background: var(--crn-black);
+          border: none; 
+          cursor: pointer; 
+          text-decoration: none;
+          padding: 16px 32px; 
+          border-radius: 10px;
+          transition: transform 0.2s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
         }
         .pj-cta-btn:hover {
-          transform: translateY(-2px) scale(1.04);
-          box-shadow: 0 12px 36px rgba(240,32,184,0.4);
+          background: var(--crn-orange);
+          transform: translateY(-3px);
         }
-        .pj-cta-btn-sheen {
-          position: absolute; top:0; left:-120%; width:55%; height:100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transform: skewX(-18deg); transition: left 0.5s ease; pointer-events: none;
-        }
-        .pj-cta-btn:hover .pj-cta-btn-sheen { left: 150%; }
+        .pj-cta-btn:active { transform: scale(0.98); }
 
         .pj-refresh-btn {
-          display: inline-flex; align-items: center; gap: 8px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 8px;
           font-family: 'Manrope', sans-serif;
-          font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
-          color: rgba(180,175,230,0.5);
-          background: none; border: 1px solid rgba(255,255,255,0.06);
-          padding: 11px 20px; border-radius: 12px;
+          font-size: 0.85rem; 
+          font-weight: 700;
+          color: var(--crn-text-gray);
+          background: none; 
+          border: none;
+          padding: 14px 20px; 
           cursor: pointer;
-          transition: all 0.25s ease;
+          transition: color 0.2s ease;
         }
-        .pj-refresh-btn:hover:not(:disabled) {
-          color: rgba(200,195,250,0.8);
-          border-color: rgba(255,255,255,0.12);
-        }
+        .pj-refresh-btn:hover:not(:disabled) { color: var(--crn-black); }
         .pj-refresh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* Empty state */
         .pj-empty {
-          position: relative; z-index: 2;
-          text-align: center; padding: 80px 24px;
+          text-align: center; 
+          padding: 80px 24px;
         }
         .pj-empty-icon {
-          font-size: 3rem; margin-bottom: 16px;
-          filter: grayscale(0.3) drop-shadow(0 0 20px rgba(240,32,184,0.3));
+          font-size: 3rem; 
+          margin-bottom: 16px;
+          opacity: 0.5;
         }
         .pj-empty-txt {
           font-family: 'Manrope', sans-serif;
-          font-size: 0.95rem; color: var(--muted); margin-bottom: 16px;
+          font-size: 1rem; 
+          font-weight: 500;
+          color: var(--crn-text-gray); 
+          margin-bottom: 16px;
         }
         .pj-empty-btn {
           font-family: 'Manrope', sans-serif;
-          font-size: 0.82rem; font-weight: 700;
-          color: var(--pink); background: none; border: none;
-          cursor: pointer; text-decoration: underline;
-          text-underline-offset: 3px;
+          font-size: 0.9rem; 
+          font-weight: 800;
+          color: var(--crn-orange); 
+          background: none; 
+          border: none;
+          cursor: pointer; 
+          text-decoration: underline;
+          text-underline-offset: 4px;
         }
 
         /* ── STATS ROW ── */
         .pj-stats {
-          position: relative; z-index: 2;
-          max-width: 1200px; margin: 56px auto 0;
-          display: grid; grid-template-columns: repeat(4,1fr);
-          gap: 12px;
+          max-width: 1200px; 
+          margin: 80px auto 0;
+          display: grid; 
+          grid-template-columns: repeat(4, 1fr);
+          background: var(--crn-white);
+          border: 1px solid var(--crn-gray);
+          border-radius: 16px;
+          box-shadow: 0 12px 32px rgba(0,0,0,0.03);
+          overflow: hidden;
         }
         .pj-stat {
-          background: rgba(255,255,255,0.022);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 16px; padding: 24px 16px;
+          padding: 32px 16px;
           text-align: center;
-          transition: all 0.3s ease;
-          opacity: 0; transform: translateY(16px);
-          transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s ease, border-color 0.3s ease;
+          border-right: 1px solid var(--crn-gray);
+          opacity: 0; 
+          transform: translateY(16px);
+          transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s ease;
         }
+        .pj-stat:last-child { border-right: none; }
         .pj-stat.pj-in { opacity: 1; transform: translateY(0); }
-        .pj-stat:nth-child(1):hover { background: rgba(240,32,184,0.05); border-color: rgba(240,32,184,0.2); }
-        .pj-stat:nth-child(2):hover { background: rgba(58,184,245,0.05);  border-color: rgba(58,184,245,0.2);  }
-        .pj-stat:nth-child(3):hover { background: rgba(123,47,255,0.05);  border-color: rgba(123,47,255,0.2);  }
-        .pj-stat:nth-child(4):hover { background: rgba(240,32,184,0.05); border-color: rgba(240,32,184,0.2); }
+        .pj-stat:hover { background: #F9F8F6; }
 
         .pj-stat-n {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-          font-weight: 800; letter-spacing: -0.03em;
-          line-height: 1; margin-bottom: 6px;
+          font-size: clamp(1.8rem, 4vw, 2.8rem);
+          font-weight: 800; 
+          letter-spacing: -0.03em;
+          line-height: 1; 
+          margin-bottom: 8px;
+          color: var(--crn-black);
         }
-        .pj-stat:nth-child(1) .pj-stat-n, .pj-stat:nth-child(4) .pj-stat-n {
-          background: linear-gradient(135deg, var(--pink), var(--violet));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          filter: drop-shadow(0 0 14px rgba(240,32,184,0.4));
-        }
-        .pj-stat:nth-child(2) .pj-stat-n {
-          background: linear-gradient(135deg, var(--blue), var(--violet));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          filter: drop-shadow(0 0 14px rgba(58,184,245,0.4));
-        }
-        .pj-stat:nth-child(3) .pj-stat-n {
-          background: linear-gradient(135deg, var(--violet), var(--blue));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          filter: drop-shadow(0 0 14px rgba(123,47,255,0.4));
-        }
+        
         .pj-stat-l {
           font-family: 'Manrope', sans-serif;
-          font-size: 0.68rem; font-weight: 700;
-          letter-spacing: 0.09em; text-transform: uppercase;
-          color: rgba(180,175,230,0.45);
+          font-size: 0.75rem; 
+          font-weight: 800;
+          letter-spacing: 0.1em; 
+          text-transform: uppercase;
+          color: var(--crn-text-gray);
         }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) { .pj-grid { grid-template-columns: repeat(2,1fr); } }
-        @media (max-width: 640px)  {
+        @media (max-width: 1024px) { 
+          .pj-grid { grid-template-columns: repeat(2,1fr); } 
+        }
+        @media (max-width: 768px)  {
           .pj-grid { grid-template-columns: 1fr; }
           .pj-stats { grid-template-columns: repeat(2,1fr); }
-          .pj-section { padding: 80px 20px 90px; }
+          .pj-stat:nth-child(2) { border-right: none; }
+          .pj-stat:nth-child(1), .pj-stat:nth-child(2) { border-bottom: 1px solid var(--crn-gray); }
+          .pj-section { padding: 100px 20px; }
+          .pj-bottom { flex-direction: column; align-items: stretch; }
+          .pj-toggle-btn, .pj-cta-btn { width: 100%; justify-content: center; }
         }
       `}</style>
 
       <section id="projects" className="pj-section" ref={sectionRef}>
-        <div className="pj-bg" />
-        <div className="pj-grid-bg" />
 
         {/* Header */}
         <div className={`pj-header ${visible ? 'pj-in' : ''}`}>
           <div className="pj-label">
-            <span className="pj-label-bar" />
-            Our Work
-            <span className="pj-label-bar-r" />
+            <span className="pj-label-dot" />
+            04 · Case Studies
           </div>
           <h2 className="pj-h2">
-            Featured <span className="pj-h2-grad">Projects</span>
+            Featured <span className="pj-h2-accent">Projects.</span>
           </h2>
+          <div className="pj-underline" />
           <p className="pj-sub">
-            Real solutions we've shipped — from connected hardware to cloud platforms.
+            A selection of recent work engineered for scale, performance, and conversion.
           </p>
+
           {/* Filters */}
           <div className="pj-filters">
             {CATEGORIES.map(cat => (
@@ -671,7 +698,7 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Loading */}
+        {/* Loading / Grid */}
         {loading ? (
           <div className="pj-loading">
             <div className="pj-spinner" />
@@ -679,7 +706,6 @@ const Projects = () => {
           </div>
         ) : (
           <>
-            {/* Grid */}
             {filtered.length > 0 ? (
               <div className="pj-grid">
                 {filtered.map((p, i) => (
@@ -700,7 +726,7 @@ const Projects = () => {
             <div className="pj-bottom">
               {showToggle && (
                 <button className="pj-toggle-btn" onClick={() => setShowAll(p => !p)}>
-                  {showAll ? '↑ Show Less' : `View All ${projects.length}+ Projects`}
+                  {showAll ? 'Show Less' : `View All ${projects.length} Projects`}
                 </button>
               )}
               <a
@@ -708,16 +734,15 @@ const Projects = () => {
                 className="pj-cta-btn"
                 onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
               >
-                <span className="pj-cta-btn-sheen" />
                 Start Your Project
-                <ArrowRight size={15} />
+                <ArrowRight size={18} />
               </a>
               <button
                 className="pj-refresh-btn"
                 onClick={load}
                 disabled={loading}
               >
-                <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+                <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
                 Refresh
               </button>
             </div>
@@ -727,15 +752,15 @@ const Projects = () => {
         {/* Stats */}
         <div className="pj-stats">
           {[
-            { n: `${projects.length}+`, l: 'Projects Completed' },
-            { n: '50+',  l: 'Happy Clients'     },
+            { n: `${projects.length}+`, l: 'Projects Delivered' },
+            { n: '50+',  l: 'Active Clients'    },
             { n: '99%',  l: 'Satisfaction Rate'  },
-            { n: '3+',   l: 'Years Experience'   },
+            { n: '3+',   l: 'Years Building'   },
           ].map((s, i) => (
             <div
               key={i}
               className={`pj-stat ${visible ? 'pj-in' : ''}`}
-              style={{ transitionDelay: `${i * 100 + 400}ms` }}
+              style={{ transitionDelay: `${(i * 100) + 200}ms` }}
             >
               <div className="pj-stat-n">{s.n}</div>
               <div className="pj-stat-l">{s.l}</div>

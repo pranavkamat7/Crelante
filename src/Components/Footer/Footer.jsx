@@ -22,8 +22,9 @@ const Footer = () => {
     Solutions: [
       { name: 'Custom Software', href: '#services' },
       { name: 'IoT Solutions', href: '#services' },
-      { name: 'SaaS Products', href: '#services' },
-      { name: 'Web Platforms', href: '#services' },
+      { name: 'SaaS Platforms', href: '#services' },
+      { name: 'Performance Ads', href: '#services' },
+      { name: 'Google Services', href: '#services' },
     ],
     Resources: [
       { name: 'Portfolio', href: '#projects' },
@@ -44,52 +45,35 @@ const Footer = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
 
+        /* ── Core Footer Theme ── */
         .crf-footer {
+          --f-bg: #0A0A0A;
+          --f-card: #141414;
+          --f-border: #262626;
+          --f-text: #FFFFFF;
+          --f-muted: #888888;
+          --f-orange: #FF4E25;
+
           position: relative;
           overflow: hidden;
-          background:
-            radial-gradient(ellipse 70% 50% at 50% 0%, rgba(99,102,241,0.14) 0%, transparent 70%),
-            radial-gradient(ellipse 35% 30% at 10% 20%, rgba(59,130,246,0.08) 0%, transparent 70%),
-            radial-gradient(ellipse 30% 25% at 90% 30%, rgba(139,92,246,0.09) 0%, transparent 70%),
-            #07080f;
-          border-top: 1px solid rgba(255,255,255,0.07);
-          color: #c7ccef;
+          background: var(--f-bg);
+          border-top: 1px solid var(--f-border);
+          color: var(--f-text);
         }
 
+        /* Subtle dark grid */
         .crf-grid {
           position: absolute;
           inset: 0;
           background-image:
-            linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
           background-size: 60px 60px;
-          mask-image: radial-gradient(circle at center, black 35%, transparent 100%);
+          mask-image: radial-gradient(circle at center top, black 20%, transparent 80%);
+          -webkit-mask-image: radial-gradient(circle at center top, black 20%, transparent 80%);
           pointer-events: none;
-        }
-
-        .crf-orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(80px);
-          pointer-events: none;
-        }
-
-        .crf-orb-1 {
-          width: 280px;
-          height: 280px;
-          top: -80px;
-          left: -60px;
-          background: rgba(99,102,241,0.14);
-        }
-
-        .crf-orb-2 {
-          width: 240px;
-          height: 240px;
-          right: -60px;
-          bottom: -60px;
-          background: rgba(139,92,246,0.12);
         }
 
         .crf-container {
@@ -97,100 +81,88 @@ const Footer = () => {
           z-index: 2;
           max-width: 1280px;
           margin: 0 auto;
-          padding: 78px 24px 0;
+          padding: 80px 24px 0;
         }
 
         .crf-top {
           display: grid;
           grid-template-columns: 1.4fr 1fr;
-          gap: 28px;
-          margin-bottom: 54px;
-        }
-
-        .crf-brand-card,
-        .crf-news-card,
-        .crf-links-wrap,
-        .crf-bottom {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+          gap: 32px;
+          margin-bottom: 64px;
         }
 
         .crf-brand-card,
         .crf-news-card {
-          border-radius: 24px;
-          padding: 28px;
+          background: var(--f-card);
+          border: 1px solid var(--f-border);
+          border-radius: 20px;
+          padding: 40px;
         }
 
         .crf-chip {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.68rem;
-          font-weight: 500;
-          letter-spacing: 0.12em;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(139,92,246,0.9);
-          background: rgba(139,92,246,0.08);
-          border: 1px solid rgba(139,92,246,0.22);
-          border-radius: 999px;
+          color: var(--f-orange);
+          background: transparent;
+          border: 1px solid var(--f-orange);
+          border-radius: 50px;
           padding: 6px 14px;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
         }
 
         .crf-chip-dot {
           width: 6px;
           height: 6px;
-          background: #8b5cf6;
+          background: var(--f-orange);
           border-radius: 50%;
         }
 
         .crf-logo-row {
           display: flex;
           align-items: center;
-          gap: 12px;
-          margin-bottom: 16px;
+          gap: 16px;
+          margin-bottom: 20px;
         }
 
         .crf-logo-box {
-          width: 46px;
-          height: 46px;
+          width: 48px;
+          height: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 14px;
-          background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(139,92,246,0.18));
-          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          background: var(--f-text);
           flex-shrink: 0;
         }
 
         .crf-logo-box img {
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
           object-fit: contain;
         }
 
         .crf-brand-name {
           font-family: 'Syne', sans-serif;
-          font-size: 1.7rem;
+          font-size: 2rem;
           font-weight: 800;
           letter-spacing: -0.03em;
-          background: linear-gradient(135deg, #f0f2ff 0%, #b8bfff 45%, #a78bfa 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: var(--f-text);
         }
 
         .crf-brand-text {
           font-family: 'Manrope', sans-serif;
-          color: rgba(180,185,220,0.7);
-          line-height: 1.8;
+          color: var(--f-muted);
+          line-height: 1.7;
           max-width: 560px;
-          margin-bottom: 24px;
-          font-size: 0.98rem;
+          margin-bottom: 32px;
+          font-size: 1rem;
+          font-weight: 500;
         }
 
         .crf-socials {
@@ -200,113 +172,113 @@ const Footer = () => {
         }
 
         .crf-social {
-          width: 46px;
-          height: 46px;
+          width: 44px;
+          height: 44px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          border-radius: 14px;
-          color: rgba(214,219,255,0.82);
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 10px;
+          color: var(--f-muted);
+          background: transparent;
+          border: 1px solid var(--f-border);
           transition: all 0.3s ease;
         }
 
         .crf-social:hover {
           transform: translateY(-3px);
-          color: #fff;
-          border-color: rgba(139,92,246,0.35);
-          background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(139,92,246,0.18));
-          box-shadow: 0 12px 30px rgba(99,102,241,0.18);
+          color: var(--f-text);
+          border-color: var(--f-orange);
+          background: var(--f-orange);
         }
 
         .crf-news-title {
           font-family: 'Syne', sans-serif;
-          font-size: 1.45rem;
+          font-size: 1.6rem;
           font-weight: 800;
-          color: #edf0ff;
-          line-height: 1.15;
+          color: var(--f-text);
+          line-height: 1.2;
           letter-spacing: -0.02em;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
         }
 
         .crf-news-text {
           font-family: 'Manrope', sans-serif;
-          color: rgba(180,185,220,0.7);
-          line-height: 1.75;
+          color: var(--f-muted);
+          line-height: 1.6;
           font-size: 0.95rem;
-          margin-bottom: 20px;
+          font-weight: 500;
+          margin-bottom: 24px;
         }
 
         .crf-form {
           display: flex;
-          gap: 10px;
+          gap: 12px;
         }
 
         .crf-input {
           flex: 1;
           min-width: 0;
-          background: rgba(255,255,255,0.045);
-          border: 1px solid rgba(255,255,255,0.09);
-          color: #f3f5ff;
-          border-radius: 14px;
-          padding: 14px 16px;
+          background: var(--f-bg);
+          border: 1px solid var(--f-border);
+          color: var(--f-text);
+          border-radius: 10px;
+          padding: 16px;
           outline: none;
           font-family: 'Manrope', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 500;
           transition: all 0.25s ease;
         }
 
         .crf-input::placeholder {
-          color: rgba(160,166,208,0.5);
+          color: var(--f-muted);
         }
 
         .crf-input:focus {
-          border-color: rgba(129,140,248,0.5);
-          box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+          border-color: var(--f-orange);
         }
 
         .crf-btn {
-          position: relative;
           display: inline-flex;
           align-items: center;
           gap: 8px;
           justify-content: center;
-          padding: 14px 20px;
-          border-radius: 14px;
+          padding: 16px 24px;
+          border-radius: 10px;
           border: none;
           cursor: pointer;
-          color: #fff;
+          color: var(--f-text);
           font-family: 'Manrope', sans-serif;
-          font-weight: 700;
-          letter-spacing: 0.03em;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          font-size: 0.95rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          background: var(--f-orange);
+          transition: transform 0.25s ease, background 0.25s ease;
           white-space: nowrap;
         }
 
         .crf-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 14px 30px rgba(99,102,241,0.28);
+          background: #E03E15;
         }
 
         .crf-links-wrap {
-          border-radius: 24px;
-          padding: 28px;
-          margin-bottom: 22px;
+          padding: 0 12px;
+          margin-bottom: 40px;
         }
 
         .crf-links-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 28px;
+          gap: 40px;
         }
 
         .crf-links-title {
           font-family: 'Syne', sans-serif;
-          color: #edf0ff;
-          font-size: 1.05rem;
-          font-weight: 700;
-          margin-bottom: 18px;
+          color: var(--f-text);
+          font-size: 1.2rem;
+          font-weight: 800;
+          margin-bottom: 24px;
         }
 
         .crf-links-list {
@@ -316,7 +288,7 @@ const Footer = () => {
         }
 
         .crf-links-list li + li {
-          margin-top: 12px;
+          margin-top: 16px;
         }
 
         .crf-link {
@@ -325,21 +297,22 @@ const Footer = () => {
           gap: 10px;
           font-family: 'Manrope', sans-serif;
           font-size: 0.95rem;
-          color: rgba(180,185,220,0.72);
+          font-weight: 500;
+          color: var(--f-muted);
           text-decoration: none;
           transition: all 0.25s ease;
         }
 
         .crf-link-line {
           width: 0;
-          height: 1px;
-          background: linear-gradient(90deg, #818cf8, #a78bfa);
+          height: 2px;
+          background: var(--f-orange);
           transition: width 0.25s ease;
         }
 
         .crf-link:hover {
-          color: #ffffff;
-          transform: translateX(3px);
+          color: var(--f-text);
+          transform: translateX(4px);
         }
 
         .crf-link:hover .crf-link-line {
@@ -347,20 +320,20 @@ const Footer = () => {
         }
 
         .crf-bottom {
-          border-radius: 22px 22px 0 0;
-          padding: 20px 24px;
+          border-top: 1px solid var(--f-border);
+          padding: 32px 0 40px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 20px;
-          margin-top: 22px;
         }
 
         .crf-copy,
         .crf-made {
           font-family: 'Manrope', sans-serif;
           font-size: 0.9rem;
-          color: rgba(165,170,210,0.68);
+          font-weight: 500;
+          color: var(--f-muted);
         }
 
         .crf-made {
@@ -368,35 +341,37 @@ const Footer = () => {
           align-items: center;
           gap: 8px;
         }
+        
+        .crf-heart { color: var(--f-orange); fill: var(--f-orange); }
 
         .crf-policy {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 20px;
+          gap: 24px;
         }
 
         .crf-policy a {
           font-family: 'Manrope', sans-serif;
           font-size: 0.9rem;
-          color: rgba(165,170,210,0.68);
+          font-weight: 500;
+          color: var(--f-muted);
           text-decoration: none;
           transition: color 0.25s ease;
         }
 
         .crf-policy a:hover {
-          color: #ffffff;
+          color: var(--f-orange);
         }
 
+        /* ── RESPONSIVE ── */
         @media (max-width: 992px) {
           .crf-top {
             grid-template-columns: 1fr;
           }
-
           .crf-links-grid {
             grid-template-columns: repeat(2, 1fr);
           }
-
           .crf-bottom {
             flex-direction: column;
             align-items: flex-start;
@@ -405,58 +380,53 @@ const Footer = () => {
 
         @media (max-width: 640px) {
           .crf-container {
-            padding: 64px 18px 0;
+            padding: 64px 20px 0;
           }
-
           .crf-brand-card,
-          .crf-news-card,
-          .crf-links-wrap {
-            padding: 22px;
-            border-radius: 20px;
+          .crf-news-card {
+            padding: 32px 24px;
           }
-
+          .crf-links-wrap {
+            padding: 0;
+          }
           .crf-links-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 40px;
           }
-
           .crf-form {
             flex-direction: column;
           }
-
           .crf-btn {
             width: 100%;
           }
-
           .crf-policy {
-            gap: 12px 18px;
+            gap: 16px 20px;
           }
         }
       `}</style>
 
       <footer className="crf-footer">
         <div className="crf-grid" />
-        <div className="crf-orb crf-orb-1" />
-        <div className="crf-orb crf-orb-2" />
 
         <div className="crf-container">
           <div className="crf-top">
+            {/* Brand Card */}
             <div className="crf-brand-card">
               <div className="crf-chip">
                 <span className="crf-chip-dot" />
-                Software · IoT · SaaS
+                Innovation & Growth
               </div>
 
               <div className="crf-logo-row">
                 <div className="crf-logo-box">
+                  {/* Assuming your logo can sit well on a white background, otherwise replace with raw text/svg */}
                   <img src="/crelante.png" alt="Crelante Logo" />
                 </div>
                 <div className="crf-brand-name">Crelante</div>
               </div>
 
               <p className="crf-brand-text">
-                Crelante builds custom software, intelligent IoT systems, and scalable
-                SaaS products that help businesses operate smarter and grow faster.
+                Crelante builds custom software, intelligent IoT systems, and scalable platforms. We partner with ambitious brands to drive growth through technology and data-driven marketing.
               </p>
 
               <div className="crf-socials">
@@ -466,6 +436,8 @@ const Footer = () => {
                     href={social.href}
                     aria-label={social.label}
                     className="crf-social"
+                    target={social.href.startsWith('http') ? '_blank' : undefined}
+                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   >
                     {social.icon}
                   </a>
@@ -473,6 +445,7 @@ const Footer = () => {
               </div>
             </div>
 
+            {/* Newsletter Card */}
             <div className="crf-news-card">
               <div className="crf-chip">
                 <span className="crf-chip-dot" />
@@ -481,7 +454,7 @@ const Footer = () => {
 
               <h3 className="crf-news-title">Get updates on what we’re building</h3>
               <p className="crf-news-text">
-                Subscribe for product updates, insights, and company news delivered to your inbox.
+                Subscribe for product updates, engineering insights, and growth strategies delivered directly to your inbox.
               </p>
 
               <form className="crf-form" onSubmit={(e) => e.preventDefault()}>
@@ -492,12 +465,13 @@ const Footer = () => {
                 />
                 <button type="submit" className="crf-btn">
                   Subscribe
-                  <ArrowRight size={16} />
+                  <ArrowRight size={18} />
                 </button>
               </form>
             </div>
           </div>
 
+          {/* Links Grid */}
           <div className="crf-links-wrap">
             <div className="crf-links-grid">
               {Object.entries(footerLinks).map(([category, links]) => (
@@ -518,11 +492,12 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Bottom Bar */}
           <div className="crf-bottom">
             <div className="crf-copy">© {currentYear} Crelante. All rights reserved.</div>
 
             <div className="crf-made">
-              Made with <Heart size={15} className="text-red-500 fill-red-500" /> by Crelante Team
+              Made with <Heart size={16} className="crf-heart" /> by Crelante Team
             </div>
 
             <div className="crf-policy">
