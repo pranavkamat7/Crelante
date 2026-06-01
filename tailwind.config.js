@@ -7,9 +7,11 @@ export default {
   theme: {
     extend: {
       animation: {
-        'fade-in': 'fadeIn 0.8s ease-in-out',
-        'slide-up': 'slideUp 0.6s ease-out',
-        'slide-in': 'slideIn 0.5s ease-out',
+        'fade-in': 'fadeIn 1s ease-out both',
+        'slide-up': 'slideUp 0.8s ease-out both',
+        'slide-in': 'slideIn 0.5s ease-out both',
+        'float': 'float 4s ease-in-out infinite',
+        'float-reverse': 'float 5s ease-in-out infinite reverse',
       },
       keyframes: {
         fadeIn: {
@@ -24,6 +26,10 @@ export default {
           '0%': { transform: 'translateX(-20px)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
       },
     },
   },

@@ -1,42 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Scrollbar */
 @layer base {
+  body {
+    @apply font-['Inter'] bg-neutral-950 text-neutral-200 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-['Outfit'] font-bold tracking-tight text-white;
+  }
+  
   * {
     scroll-behavior: smooth;
   }
   
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
   
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #0a0a0a;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #3b82f6, #8b5cf6);
-    border-radius: 5px;
+    background: #333;
+    border-radius: 4px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #2563eb, #7c3aed);
+    background: #555;
   }
 }
 
-/* Custom Animations */
 @layer utilities {
-  .animate-delay-200 {
-    animation-delay: 200ms;
-  }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-600 { animation-delay: 600ms; }
   
-  .animate-delay-400 {
-    animation-delay: 400ms;
+  /* Custom glassmorphism utilities */
+  .glass {
+    @apply bg-neutral-900/40 backdrop-blur-md border border-white/5;
   }
-  
-  .animate-delay-600 {
-    animation-delay: 600ms;
+  .glass-card {
+    @apply bg-gradient-to-b from-neutral-900/50 to-neutral-900/20 backdrop-blur-xl border border-white/10 rounded-2xl;
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }

@@ -1,434 +1,142 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRight, Code, Cpu, LineChart, Terminal, CheckCircle2 } from 'lucide-react';
 
-/* ── Animated Counter ── */
-const useCounter = (target, duration = 2000, active = false) => {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    const n = parseInt(target);
-    let s = null;
-    const tick = ts => {
-      if (!s) s = ts;
-      const p = Math.min((ts - s) / duration, 1);
-      setVal(Math.floor((1 - Math.pow(1 - p, 4)) * n));
-      if (p < 1) requestAnimationFrame(tick); else setVal(n);
-    };
-    requestAnimationFrame(tick);
-  }, [active, target, duration]);
-  return val;
-};
+const WORDS = ['Software.', 'IoT Systems.', 'SaaS Platforms.', 'Digital Growth.'];
 
-const Stat = ({ number, label, delay, active, dark }) => {
-  const count = useCounter(parseInt(number), 2000, active);
-  const suffix = number.includes('%') ? '%' : number.includes('+') ? '+' : '';
-  
-  return (
-    <div className={`crh-stat ${dark ? 'crh-stat-dark' : ''}`} style={{ transitionDelay: `${delay}ms` }}>
-      <div className="crh-stat-n">{count}{suffix}</div>
-      <div className="crh-stat-l">{label}</div>
-    </div>
-  );
-};
-
-/* ── Typewriter (Solid Colors) ── */
-const WORDS = ['Software.', 'IoT Systems.', 'SaaS Platforms.', 'Digital Ads.', 'Google Services.'];
-const Typewriter = ({ go }) => {
-  const [wi, setWi] = useState(0);
-  const [txt, setTxt] = useState('');
-  const [del, setDel] = useState(false);
-  
-  useEffect(() => {
-    if (!go) return;
-    const word = WORDS[wi];
-    const t = setTimeout(() => {
-      if (!del && txt.length < word.length) setTxt(word.slice(0, txt.length + 1));
-      else if (!del && txt.length === word.length) setDel(true);
-      else if (del && txt.length > 0) setTxt(txt.slice(0, -1));
-      else { setDel(false); setWi((wi + 1) % WORDS.length); }
-    }, del ? 40 : txt.length === word.length ? 2000 : 80);
-    return () => clearTimeout(t);
-  }, [txt, del, wi, go]);
-
-  return (
-    <span className="crh-tw">
-      {txt}<span className="crh-cursor" />
-    </span>
-  );
-};
-
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
 const Hero = () => {
-  const [on, setOn] = useState(false);
-  const ref = useRef(null);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setOn(true), 100);
-    return () => clearTimeout(t);
-  }, []);
+    const currentWord = WORDS[wordIndex];
+    const timeout = setTimeout(() => {
+      if (!isDeleting && text.length < currentWord.length) {
+        setText(currentWord.slice(0, text.length + 1));
+      } else if (!isDeleting && text.length === currentWord.length) {
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && text.length > 0) {
+        setText(text.slice(0, -1));
+      } else {
+        setIsDeleting(false);
+        setWordIndex((prev) => (prev + 1) % WORDS.length);
+      }
+    }, isDeleting ? 40 : text.length === currentWord.length ? 2000 : 80);
 
-  const go = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-
-  const statData = [
-    { number: '50+', label: 'Projects Shipped', dark: true },
-    { number: '50+', label: 'Active Clients', dark: false },
-    { number: '3+',  label: 'Years Building', dark: false },
-    { number: '99%', label: 'System Uptime', dark: false },
-  ];
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, wordIndex]);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden selection:bg-orange-500/30">
+      
+      {/* Background Animated Orbs */}
+      <div className="absolute top-1/4 -left-64 w-[600px] h-[600px] bg-orange-600/20 rounded-full blur-[150px] mix-blend-screen animate-[pulse_8s_ease-in-out_infinite]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neutral-900/50 rounded-full blur-[100px] -z-10" />
+      <div className="absolute -bottom-32 -right-64 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[150px] mix-blend-screen animate-[pulse_10s_ease-in-out_infinite_reverse]" />
+      
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQuNjI3IDU0LjYyN3YtNTMuMjU0aC01My4yNTR2NTMuMjU0aDUzLjI1NHptLTIuMzgxLTIuMzgxdm0tNDguNDkybTAtNDguNDkyaDQ4LjQ5MnY0OC40OTJoLTQ4LjQ5MnYtNDguNDkyeiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjAyIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] opacity-50" />
 
-        /* ── Core Theme Colors ── */
-        :root {
-          --crn-black: #0A0A0A;
-          --crn-white: #FFFFFF;
-          --crn-bg: #F9F8F6;
-          --crn-orange: #FF4E25;
-          --crn-gray: #E5E5E5;
-          --crn-text-gray: #666666;
-        }
-
-        .crh-section {
-          position: relative;
-          min-height: 100vh;
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          background: var(--crn-bg);
-          padding: 160px 24px 100px;
-          overflow: hidden; /* Prevents mobile horizontal scroll */
-        }
-
-        /* ── Layout Grid ── */
-        .crh-container {
-          position: relative;
-          z-index: 10;
-          width: 100%;
-          max-width: 1280px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
-          gap: 64px;
-          align-items: center;
-        }
-
-        .crh-reveal {
-          opacity: 0; 
-          transform: translateY(30px);
-          transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .crh-section.on .crh-reveal { 
-          opacity: 1; 
-          transform: translateY(0); 
-        }
-
-        /* ── LEFT COLUMN ── */
-        .crh-left {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          text-align: left;
-        }
-
-        .crh-eyebrow {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          padding: 8px 20px;
-          border-radius: 50px;
-          margin-bottom: 32px;
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          color: var(--crn-black);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .crh-ew-dot {
-          width: 8px; height: 8px; 
-          border-radius: 50%;
-          background: var(--crn-orange); 
-          flex-shrink: 0;
-        }
-
-        .crh-h1 {
-          font-family: 'Syne', sans-serif;
-          /* Adjusted clamp for better mobile fit */
-          font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-          font-weight: 800;
-          line-height: 1.05;
-          letter-spacing: -0.04em;
-          margin-bottom: 24px;
-          color: var(--crn-black);
-        }
-
-        .crh-h1-l1 { display: block; }
-        .crh-h1-l2 { display: block; color: var(--crn-orange); }
-
-        .crh-underline {
-          display: block;
-          width: 80px;
-          height: 6px;
-          background: var(--crn-black);
-          margin: 16px 0 32px 0; /* Left aligned margin */
-          border-radius: 4px;
-        }
-
-        .crh-tw { color: var(--crn-orange); position: relative; }
-
-        .crh-cursor {
-          display: inline-block;
-          width: clamp(4px, 1vw, 8px);
-          height: clamp(2.5rem, 6.5vw, 5.5rem);
-          background-color: var(--crn-orange);
-          vertical-align: text-bottom;
-          margin-left: 8px;
-          animation: solidBlink 1s step-end infinite;
-        }
-        @keyframes solidBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        .crh-sub {
-          font-family: 'Manrope', sans-serif;
-          font-size: clamp(1rem, 2vw, 1.15rem);
-          font-weight: 500;
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-          max-width: 600px;
-          margin-bottom: 48px;
-        }
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-center relative z-10 w-full">
         
-        .crh-hl { color: var(--crn-black); font-weight: 800; }
-        .crh-hl-o { color: var(--crn-orange); font-weight: 800; }
+        {/* Left Content */}
+        <div className="flex flex-col items-start text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-8 animate-fade-in">
+            <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(255,78,37,0.8)] animate-pulse" />
+            <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-neutral-300">Engineering The Future</span>
+          </div>
 
-        /* ── BUTTONS ── */
-        .crh-btns {
-          display: flex; 
-          flex-wrap: wrap; 
-          gap: 16px;
-        }
+          <h1 className="text-6xl md:text-8xl font-black leading-[1.05] tracking-tight mb-8 animate-slide-up [animation-delay:200ms]">
+            <span className="block text-white mb-2">We Build</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 min-h-[1.2em]">
+              {text}<span className="inline-block w-1 md:w-3 h-[0.8em] ml-2 md:ml-4 bg-orange-500 align-middle animate-[pulse_1s_step-end_infinite]" />
+            </span>
+          </h1>
 
-        .crh-btn-p, .crh-btn-s {
-          display: inline-flex; 
-          align-items: center; 
-          justify-content: center;
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800; 
-          letter-spacing: 0.05em;
-          padding: 16px 36px; 
-          border-radius: 10px;
-          cursor: pointer; 
-          text-decoration: none;
-          transition: background 0.3s ease, color 0.3s ease, transform 0.2s cubic-bezier(0.8, 0, 0.2, 1);
-        }
+          <p className="text-xl md:text-2xl text-neutral-400 font-medium leading-relaxed max-w-xl mb-12 animate-slide-up [animation-delay:400ms]">
+            Crelante engineers <span className="text-white">custom software</span>, intelligent <span className="text-white">IoT systems</span>, and scalable platforms. We turn complex technical challenges into elegant solutions.
+          </p>
 
-        .crh-btn-p {
-          color: var(--crn-white); 
-          background: var(--crn-black);
-          border: 2px solid var(--crn-black);
-        }
-        .crh-btn-p:hover {
-          background: var(--crn-orange);
-          border-color: var(--crn-orange);
-          transform: translateY(-3px);
-        }
-        .crh-btn-p:active { transform: scale(0.98); }
+          <div className="flex flex-wrap items-center gap-6 animate-slide-up [animation-delay:600ms]">
+            <a href="#contact" className="group relative inline-flex items-center gap-3 px-10 py-5 bg-white text-black text-lg font-bold rounded-xl overflow-hidden transition-transform hover:scale-105 active:scale-95">
+              <span className="relative z-10">Start a Project</span>
+              <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0" />
+            </a>
+            
+            <a href="#projects" className="inline-flex items-center justify-center px-8 py-5 text-white text-lg font-bold rounded-xl border-2 border-white/10 hover:bg-white/5 transition-all">
+              View Our Work
+            </a>
+          </div>
+        </div>
 
-        .crh-arrow {
-          display: inline-flex;
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .crh-btn-p:hover .crh-arrow { transform: translateX(6px) rotate(-45deg); }
+        {/* Right Content - Visual Heavy Area */}
+        <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-square flex items-center justify-center animate-fade-in [animation-delay:800ms] mt-12 lg:mt-0">
+          {/* Decorative glowing orb */}
+          <div className="absolute w-[80%] h-[80%] bg-orange-500/20 rounded-full blur-[80px] animate-[pulse_6s_ease-in-out_infinite]" />
 
-        .crh-btn-s {
-          color: var(--crn-black); 
-          background: transparent;
-          border: 2px solid var(--crn-black);
-        }
-        .crh-btn-s:hover {
-          background: var(--crn-black);
-          color: var(--crn-white);
-          transform: translateY(-3px);
-        }
-
-        /* ── RIGHT COLUMN (BENTO STATS) ── */
-        .crh-right {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        /* Background Graphic Contained behind stats */
-        .crh-bg-graphic {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%) scale(0.8);
-          width: 600px;
-          height: 600px;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0;
-          transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .crh-section.on .crh-bg-graphic {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
-        }
-        
-        .crh-circle {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          border-radius: 50%;
-          border: 1px solid var(--crn-gray);
-        }
-        .crh-circle-1 { width: 100%; height: 100%; }
-        .crh-circle-2 { width: 70%; height: 70%; border-style: dashed; }
-        .crh-circle-dot {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          width: 60px; height: 60px;
-          background: radial-gradient(circle, var(--crn-orange) 0%, rgba(255,78,37,0) 70%);
-          opacity: 0.3;
-        }
-
-        /* Bento Grid */
-        .crh-stats-grid {
-          position: relative;
-          z-index: 2;
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          width: 100%;
-        }
-
-        .crh-stat {
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          border-radius: 16px;
-          padding: 40px 24px;
-          text-align: center;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.03);
-          opacity: 0; 
-          transform: translateY(14px);
-          transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease;
-        }
-        .crh-section.on .crh-stat { opacity: 1; transform: translateY(0); }
-        .crh-stat:hover { border-color: var(--crn-black); }
-
-        .crh-stat-dark {
-          background: var(--crn-black);
-          border-color: var(--crn-black);
-        }
-        .crh-stat-dark .crh-stat-n { color: var(--crn-white); }
-        .crh-stat-dark .crh-stat-l { color: #A0A0A0; }
-        .crh-stat-dark:hover { border-color: var(--crn-orange); }
-
-        .crh-stat-n {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(2rem, 4vw, 3rem);
-          font-weight: 800; 
-          letter-spacing: -0.03em;
-          line-height: 1; 
-          margin-bottom: 12px;
-          color: var(--crn-black);
-        }
-        .crh-stat-l {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.8rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          color: var(--crn-text-gray);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media(max-width: 1024px){
-          .crh-container { gap: 40px; }
-          .crh-stat { padding: 32px 16px; }
-        }
-
-        @media(max-width: 900px){
-          .crh-section { padding: 140px 24px 80px; }
-          .crh-container { grid-template-columns: 1fr; gap: 64px; }
-          .crh-bg-graphic { display: none; } /* Hide graphic on mobile to keep it clean */
-          
-          /* Keep text left-aligned on mobile for a sleek editorial look */
-          .crh-underline { margin-left: 0; }
-          .crh-btns { flex-direction: column; align-items: stretch; width: 100%; max-width: 400px; }
-          .crh-btn-p, .crh-btn-s { width: 100%; justify-content: center; }
-        }
-
-        @media(max-width: 480px){
-          .crh-stats-grid { grid-template-columns: 1fr; } /* Stack stats on very small screens */
-        }
-      `}</style>
-
-      <section id="home" className={`crh-section ${on ? 'on' : ''}`} ref={ref}>
-        
-        <div className="crh-container">
-          {/* ── Left Content ── */}
-          <div className="crh-left">
-            <div className="crh-reveal crh-eyebrow" style={{ transitionDelay: '0ms' }}>
-              <span className="crh-ew-dot" />
-              01 · Innovation & Growth
+          {/* Main Floating Terminal Window */}
+          <div className="absolute w-full max-w-md glass-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-20 hover:-translate-y-2 transition-transform duration-500">
+            {/* Terminal Header */}
+            <div className="bg-neutral-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/10">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              </div>
+              <div className="flex-1 text-center text-xs font-mono text-neutral-500 flex items-center justify-center gap-2">
+                <Terminal size={12} /> root@crelante:~
+              </div>
             </div>
-
-            <h1 className="crh-h1 crh-reveal" style={{ transitionDelay: '100ms' }}>
-              <span className="crh-h1-l1">Crelante builds</span>
-              <span className="crh-h1-l2">
-                <Typewriter go={on} />
-              </span>
-            </h1>
-
-            <div className="crh-underline crh-reveal" style={{ transitionDelay: '200ms' }} />
-
-            <p className="crh-sub crh-reveal" style={{ transitionDelay: '300ms' }}>
-              We engineer <span className="crh-hl">custom software</span>, intelligent <span className="crh-hl">IoT systems</span>, and scalable platforms. Beyond code, we drive business growth through <span className="crh-hl-o">targeted ad campaigns</span> and comprehensive <span className="crh-hl">Google Business</span> services.
-            </p>
-
-            <div className="crh-btns crh-reveal" style={{ transitionDelay: '400ms' }}>
-              <a href="#contact" className="crh-btn-p" onClick={e => { e.preventDefault(); go('contact'); }}>
-                Start a Project
-                <span className="crh-arrow"><ArrowRight size={18} /></span>
-              </a>
-              <a href="#projects" className="crh-btn-s" onClick={e => { e.preventDefault(); go('projects'); }}>
-                View Our Work
-              </a>
+            {/* Terminal Body */}
+            <div className="p-6 font-mono text-sm md:text-base leading-loose text-neutral-300">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-orange-500">❯</span> 
+                <span className="text-white">npm run build --platform=enterprise</span>
+              </div>
+              <div className="text-neutral-500 mb-2">Compiling optimized modules...</div>
+              <div className="flex items-center gap-2 mb-2 text-green-400">
+                <CheckCircle2 size={16} /> <span className="text-neutral-300">Auth module compiled in 1.2s</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2 text-green-400">
+                <CheckCircle2 size={16} /> <span className="text-neutral-300">IoT Edge workers bundled in 0.8s</span>
+              </div>
+              <div className="flex items-center gap-2 mb-4 text-green-400">
+                <CheckCircle2 size={16} /> <span className="text-neutral-300">Database shards optimized</span>
+              </div>
+              <div className="flex items-center gap-2 font-bold text-white">
+                <span className="text-orange-500">❯</span> <span>System deployed successfully.</span>
+                <span className="w-2 h-4 bg-orange-500 animate-pulse ml-1" />
+              </div>
             </div>
           </div>
 
-          {/* ── Right Content (Bento Stats) ── */}
-          <div className="crh-right">
-            {/* Subtle Geometric Graphic */}
-            <div className="crh-bg-graphic">
-              <div className="crh-circle crh-circle-1" />
-              <div className="crh-circle crh-circle-2" />
-              <div className="crh-circle-dot" />
+          {/* Floating Stat Badge 1 (Top Left) */}
+          <div className="absolute top-[10%] left-[-5%] md:left-[5%] glass-card p-4 rounded-xl flex items-center gap-4 z-30 animate-float shadow-xl">
+            <div className="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-500 border border-orange-500/30">
+              <Code size={24} />
             </div>
+            <div>
+              <div className="text-2xl font-black text-white leading-none mb-1">50<span className="text-orange-500">+</span></div>
+              <div className="text-[10px] font-bold tracking-widest uppercase text-neutral-400">Projects Shipped</div>
+            </div>
+          </div>
 
-            <div className="crh-stats-grid crh-reveal" style={{ transitionDelay: '500ms' }}>
-              {statData.map((s, i) => (
-                <Stat key={i} number={s.number} label={s.label} dark={s.dark} delay={(i * 100) + 600} active={on} />
-              ))}
+          {/* Floating Stat Badge 2 (Bottom Right) */}
+          <div className="absolute bottom-[10%] right-[-5%] md:right-[5%] glass-card p-4 rounded-xl flex items-center gap-4 z-30 animate-float-reverse shadow-xl">
+            <div className="w-12 h-12 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30">
+              <LineChart size={24} />
+            </div>
+            <div>
+              <div className="text-2xl font-black text-white leading-none mb-1">99<span className="text-indigo-400">%</span></div>
+              <div className="text-[10px] font-bold tracking-widest uppercase text-neutral-400">System Uptime</div>
             </div>
           </div>
 
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 };
 

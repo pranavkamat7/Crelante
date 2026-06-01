@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Target, Code, Zap, BarChart2 } from 'lucide-react';
 
-/* ── Intersection observer hook ── */
 const useInView = (threshold = 0.15) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -16,359 +15,105 @@ const useInView = (threshold = 0.15) => {
   return [ref, visible];
 };
 
-/* ── Main ── */
 const About = () => {
   const [sectionRef, visible] = useInView(0.1);
 
-  // Features pulled directly from your creative layout
   const features = [
     {
-      icon: <Target size={24} color="#FF4E25" />,
+      icon: <Target size={24} className="text-orange-500" />,
       title: 'STRATEGY FIRST',
       desc: 'Every project starts with deep research and clear direction.',
     },
     {
-      icon: <Code size={24} color="#FF4E25" />,
+      icon: <Code size={24} className="text-orange-500" />,
       title: 'CUSTOM DEVELOPMENT',
       desc: 'Clean, scalable and future ready code. No shortcuts.',
     },
     {
-      icon: <Zap size={24} color="#FF4E25" />,
+      icon: <Zap size={24} className="text-orange-500" />,
       title: 'PERFORMANCE OBSESSED',
       desc: 'Fast loading seamless and optimized for every device.',
     },
     {
-      icon: <BarChart2 size={24} color="#FF4E25" />,
+      icon: <BarChart2 size={24} className="text-orange-500" />,
       title: 'BUILT FOR GROWTH',
       desc: 'Designed to convert, engage and scale with your brand.',
     },
   ];
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
-
-        /* ── Core Theme Colors ── */
-        .ab-section {
-          --crn-black: #0A0A0A;
-          --crn-white: #FFFFFF;
-          --crn-bg: #FFFFFF; /* Pure white for contrast against Hero */
-          --crn-orange: #FF4E25;
-          --crn-gray: #E5E5E5;
-          --crn-text-gray: #666666;
-
-          position: relative;
-          background: var(--crn-bg);
-          padding: 140px 24px;
-          overflow: hidden;
-          border-top: 1px solid var(--crn-gray);
-        }
-
-        .ab-inner {
-          position: relative; 
-          z-index: 2;
-          max-width: 1200px; 
-          margin: 0 auto;
-          display: grid; 
-          grid-template-columns: 1fr 1fr;
-          gap: 80px; 
-          align-items: start;
-        }
-
-        /* ── LEFT TEXT SIDE ── */
-        .ab-left { 
-          display: flex; 
-          flex-direction: column; 
-        }
-
-        /* Section label */
-        .ab-label {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          padding: 8px 20px;
-          border-radius: 50px;
-          margin-bottom: 32px;
-          background: var(--crn-bg);
-          border: 1px solid var(--crn-gray);
-          color: var(--crn-black);
-          width: fit-content;
-          opacity: 0; 
-          transform: translateY(16px);
-          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .ab-label.on { opacity: 1; transform: translateY(0); }
+    <section id="about" className="relative py-32 px-6 overflow-hidden border-t border-white/5 bg-neutral-950" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 relative z-10 items-start">
         
-        .ab-label-dot {
-          width: 8px; height: 8px; 
-          border-radius: 50%;
-          background: var(--crn-orange); 
-        }
+        {/* Left Content */}
+        <div className="flex flex-col">
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-8 w-fit transition-all duration-700 delay-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(255,78,37,0.8)]" />
+            <span className="text-xs font-bold tracking-widest uppercase text-neutral-300">About Us</span>
+          </div>
 
-        /* Headings */
-        .ab-h2 {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(3rem, 6vw, 4.5rem);
-          font-weight: 800;
-          line-height: 1.05;
-          letter-spacing: -0.04em;
-          color: var(--crn-black);
-          margin-bottom: 24px;
-          opacity: 0; 
-          transform: translateY(20px);
-          transition: opacity 0.6s ease 0.1s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.1s;
-        }
-        .ab-h2.on { opacity: 1; transform: translateY(0); }
+          <h2 className={`text-5xl md:text-7xl font-black leading-[1.05] tracking-tight mb-8 transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            We don't do <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">generic.</span>
+          </h2>
 
-        .ab-h2-accent { color: var(--crn-orange); }
+          <div className={`w-16 h-1.5 bg-orange-500 rounded-full mb-8 transition-all duration-700 delay-300 origin-left ${visible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
 
-        /* Accent Underline */
-        .ab-underline {
-          width: 60px;
-          height: 6px;
-          background: var(--crn-black);
-          margin-bottom: 32px;
-          border-radius: 4px;
-          opacity: 0;
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.2s;
-        }
-        .ab-underline.on { opacity: 1; transform: scaleX(1); }
+          <p className={`text-lg md:text-xl text-neutral-400 font-medium leading-relaxed mb-4 transition-all duration-700 delay-400 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            Your brand is <span className="text-white font-bold">unique</span>. Your digital presence should be too.
+          </p>
+          <p className={`text-lg text-neutral-400 font-medium leading-relaxed mb-12 transition-all duration-700 delay-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            Based in Goa, we are a team of software engineers and growth strategists. We combine custom code, intelligent IoT systems, and data-driven marketing to build solutions that actually work for your specific business.
+          </p>
 
-        /* Body text */
-        .ab-p {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1.1rem; 
-          font-weight: 500; 
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-          margin-bottom: 16px;
-          opacity: 0; 
-          transform: translateY(16px);
-          transition: opacity 0.6s ease 0.3s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.3s;
-        }
-        .ab-p.on { opacity: 1; transform: translateY(0); }
-        .ab-p:last-of-type { margin-bottom: 48px; }
-        
-        .ab-hl { color: var(--crn-orange); font-weight: 700; }
-
-        /* Trust badge */
-        .ab-trust {
-          display: flex; 
-          align-items: center; 
-          gap: 16px;
-          background: #F9F8F6;
-          border: 1px solid var(--crn-gray);
-          border-radius: 12px; 
-          padding: 20px;
-          opacity: 0; 
-          transform: translateY(14px);
-          transition: opacity 0.6s ease 0.4s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.4s;
-          max-width: 400px;
-        }
-        .ab-trust.on { opacity: 1; transform: translateY(0); }
-
-        .ab-trust-icon {
-          width: 48px; height: 48px; 
-          border-radius: 8px; 
-          flex-shrink: 0;
-          background: var(--crn-black);
-          color: var(--crn-white);
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          font-size: 1.2rem;
-        }
-
-        .ab-trust-title {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.85rem; 
-          font-weight: 800; 
-          color: var(--crn-black);
-          margin-bottom: 6px;
-        }
-
-        /* Solid Avatars */
-        .ab-avatars { display: flex; }
-        .ab-av {
-          width: 28px; height: 28px; 
-          border-radius: 50%;
-          border: 2px solid var(--crn-white);
-          margin-left: -8px; 
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          font-size: 0.6rem; 
-          font-weight: 800;
-          font-family: 'Manrope', sans-serif;
-          color: var(--crn-white);
-        }
-        .ab-av:first-child { margin-left: 0; }
-        .ab-av-1 { background: var(--crn-black); }
-        .ab-av-2 { background: var(--crn-text-gray); }
-        .ab-av-3 { background: var(--crn-orange); }
-        .ab-av-more { background: var(--crn-gray); color: var(--crn-black); border-color: var(--crn-white); }
-
-        /* ── RIGHT GRAPHIC SIDE ── */
-        .ab-right {
-          display: flex; 
-          flex-direction: column;
-          gap: 40px;
-        }
-
-        .ab-right-h3 {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(2rem, 3.5vw, 2.8rem);
-          font-weight: 800;
-          line-height: 1.1;
-          letter-spacing: -0.03em;
-          color: var(--crn-black);
-          opacity: 0; 
-          transform: translateY(20px);
-          transition: opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.2s;
-        }
-        .ab-right-h3.on { opacity: 1; transform: translateY(0); }
-
-        /* Feature List */
-        .ab-features {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-
-        .ab-feat {
-          display: flex;
-          align-items: flex-start;
-          gap: 20px;
-          opacity: 0; 
-          transform: translateX(20px);
-          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .ab-features.on .ab-feat { opacity: 1; transform: translateX(0); }
-
-        .ab-feat-icon-wrap {
-          width: 56px; height: 56px; 
-          border-radius: 12px;
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          background: var(--crn-black);
-          flex-shrink: 0;
-          transition: transform 0.3s ease, background 0.3s ease;
-        }
-        
-        .ab-feat:hover .ab-feat-icon-wrap {
-          transform: scale(1.05) rotate(-5deg);
-          background: #1A1A1A;
-        }
-
-        .ab-feat-text {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          padding-top: 4px;
-        }
-
-        .ab-feat-title {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1rem; 
-          font-weight: 800;
-          letter-spacing: 0.02em; 
-          color: var(--crn-black);
-        }
-        
-        .ab-feat-desc {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.95rem; 
-          font-weight: 500; 
-          line-height: 1.5;
-          color: var(--crn-text-gray);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 980px) {
-          .ab-inner { grid-template-columns: 1fr; gap: 80px; }
-          .ab-right { gap: 32px; }
-        }
-        @media (max-width: 560px) {
-          .ab-section  { padding: 100px 20px; }
-          .ab-trust  { max-width: 100%; }
-          .ab-feat { gap: 16px; }
-          .ab-feat-icon-wrap { width: 48px; height: 48px; }
-        }
-      `}</style>
-
-      <section id="about" className="ab-section" ref={sectionRef}>
-        <div className="ab-inner">
-          
-          {/* ── LEFT ── */}
-          <div className="ab-left">
-            <div className={`ab-label ${visible ? 'on' : ''}`}>
-              <span className="ab-label-dot" />
-              02 · About Us
+          {/* Trust Badge */}
+          <div className={`flex items-center gap-4 glass-card p-4 rounded-2xl w-fit transition-all duration-700 delay-600 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0 border border-orange-500/20">
+              <span className="text-xl">✦</span>
             </div>
-
-            <h2 className={`ab-h2 ${visible ? 'on' : ''}`}>
-              We don't do <br/>
-              <span className="ab-h2-accent">generic.</span>
-            </h2>
-
-            <div className={`ab-underline ${visible ? 'on' : ''}`} />
-
-            <p className={`ab-p ${visible ? 'on' : ''}`}>
-              Your brand is <span className="ab-hl">unique</span>. Your digital presence should be too.
-            </p>
-            <p className={`ab-p ${visible ? 'on' : ''}`}>
-              Based in Goa, we are a team of software engineers and growth strategists. We combine custom code, intelligent IoT systems, and data-driven marketing to build solutions that actually work for your specific business.
-            </p>
-
-            <div className={`ab-trust ${visible ? 'on' : ''}`}>
-              <div className="ab-trust-icon">✦</div>
-              <div>
-                <div className="ab-trust-title">Trusted by 50+ partners locally & globally</div>
-                <div className="ab-avatars">
-                  <div className="ab-av ab-av-1">A</div>
-                  <div className="ab-av ab-av-2">B</div>
-                  <div className="ab-av ab-av-3">C</div>
-                  <div className="ab-av ab-av-more">+45</div>
-                </div>
+            <div>
+              <div className="text-sm font-bold text-white mb-1">Trusted by 50+ partners locally & globally</div>
+              <div className="flex">
+                <div className="w-8 h-8 rounded-full border-2 border-neutral-900 bg-neutral-800 flex items-center justify-center text-[10px] font-bold text-white z-30">A</div>
+                <div className="w-8 h-8 rounded-full border-2 border-neutral-900 bg-neutral-700 flex items-center justify-center text-[10px] font-bold text-white -ml-2 z-20">B</div>
+                <div className="w-8 h-8 rounded-full border-2 border-neutral-900 bg-orange-600 flex items-center justify-center text-[10px] font-bold text-white -ml-2 z-10">C</div>
+                <div className="w-8 h-8 rounded-full border-2 border-neutral-900 bg-neutral-600 flex items-center justify-center text-[10px] font-bold text-white -ml-2 z-0">+45</div>
               </div>
             </div>
           </div>
-
-          {/* ── RIGHT ── */}
-          <div className="ab-right">
-            <h3 className={`ab-right-h3 ${visible ? 'on' : ''}`}>
-              We focus on what actually <span className="ab-h2-accent">moves the needle.</span>
-            </h3>
-
-            <div className={`ab-features ${visible ? 'on' : ''}`}>
-              {features.map((f, i) => (
-                <div 
-                  key={i} 
-                  className="ab-feat" 
-                  style={{ transitionDelay: visible ? `${0.3 + (i * 0.1)}s` : '0s' }}
-                >
-                  <div className="ab-feat-icon-wrap">{f.icon}</div>
-                  <div className="ab-feat-text">
-                    <div className="ab-feat-title">{f.title}</div>
-                    <div className="ab-feat-desc">{f.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
-      </section>
-    </>
+
+        {/* Right Content */}
+        <div className="flex flex-col gap-10">
+          <h3 className={`text-4xl md:text-5xl font-black leading-tight tracking-tight transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            We focus on what actually <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">moves the needle.</span>
+          </h3>
+
+          <div className="flex flex-col gap-6">
+            {features.map((f, i) => (
+              <div 
+                key={i} 
+                className={`flex items-start gap-5 group transition-all duration-700 ease-out`}
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? 'translateX(0)' : 'translateX(20px)',
+                  transitionDelay: `${400 + (i * 100)}ms`
+                }}
+              >
+                <div className="w-14 h-14 rounded-xl bg-neutral-900/50 border border-white/5 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3 group-hover:bg-neutral-800 group-hover:border-orange-500/30">
+                  {f.icon}
+                </div>
+                <div className="flex flex-col pt-1">
+                  <h4 className="text-sm font-bold tracking-widest uppercase text-white mb-2">{f.title}</h4>
+                  <p className="text-base text-neutral-400 font-medium leading-relaxed">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
   );
 };
 

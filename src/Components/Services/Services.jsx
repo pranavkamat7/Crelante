@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Code, Cpu, Cloud, Smartphone, Megaphone, Search, ArrowRight, Zap
-} from 'lucide-react';
+import { Code, Cpu, Cloud, Smartphone, Megaphone, Search, ArrowRight, Zap } from 'lucide-react';
 
-/* ── Intersection observer hook ── */
 const useInView = (threshold = 0.1) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -18,7 +15,6 @@ const useInView = (threshold = 0.1) => {
   return [ref, visible];
 };
 
-/* ── Service data ── */
 const SERVICES = [
   {
     icon: Code,
@@ -71,445 +67,113 @@ const SERVICES = [
   },
 ];
 
-/* ── Service Card ── */
 const ServiceCard = ({ s, i, visible }) => {
   return (
     <div
-      className={`sv-card ${s.featured ? 'sv-featured' : ''} ${visible ? 'sv-in' : ''}`}
-      style={{ transitionDelay: `${i * 80}ms` }}
+      className={`relative group flex flex-col p-8 glass-card border border-white/5 bg-neutral-900/40 hover:bg-neutral-800/60 hover:border-orange-500/30 hover:shadow-[0_0_30px_rgba(255,78,37,0.1)] transition-all duration-500 ease-out`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(24px)',
+        transitionDelay: `${i * 100}ms`
+      }}
     >
-      {/* Top line accent */}
-      <div className="sv-card-line" />
+      {/* Top Accent Line */}
+      <div className="absolute top-0 left-8 right-8 h-[2px] bg-white/10 rounded-b-md transition-all duration-300 origin-left scale-x-0 group-hover:scale-x-100 group-hover:bg-orange-500" />
 
-      {/* Top row */}
-      <div className="sv-card-top">
-        <span className="sv-tag">{s.tag}</span>
-        <div className="sv-icon-wrap">
+      {/* Top Row */}
+      <div className="flex items-center justify-between mb-8">
+        <span className="font-bold text-neutral-600 group-hover:text-orange-500 transition-colors duration-300">{s.tag}</span>
+        <div className="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center text-white border border-white/5 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 group-hover:bg-orange-500 group-hover:border-orange-400">
           <s.icon size={22} />
         </div>
       </div>
 
       {/* Title */}
-      <div className="sv-card-title">
-        <div className="sv-title-main">{s.title}</div>
-        <div className="sv-title-sub">{s.subtitle}</div>
+      <div className="mb-4">
+        <h3 className="text-2xl font-black text-white leading-tight tracking-tight mb-1">{s.title}</h3>
+        <div className="text-xs font-bold tracking-widest uppercase text-orange-500">{s.subtitle}</div>
       </div>
 
       {/* Description */}
-      <p className="sv-desc">{s.desc}</p>
+      <p className="text-neutral-400 font-medium leading-relaxed mb-8 flex-1">{s.desc}</p>
 
       {/* Pills */}
-      <div className="sv-pills">
+      <div className="flex flex-wrap gap-2 mb-8">
         {s.pills.map((p, pi) => (
-          <span key={pi} className="sv-pill">{p}</span>
+          <span key={pi} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-lg bg-neutral-950 border border-white/5 text-neutral-400 group-hover:border-white/20 transition-colors">
+            {p}
+          </span>
         ))}
       </div>
 
-      {/* Bottom link */}
-      <div className="sv-link">
-        <span>Learn More</span>
-        <span className="sv-link-arrow">
-          <ArrowRight size={16} />
-        </span>
+      {/* Learn More Link */}
+      <div className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-orange-500 transition-colors mt-auto cursor-pointer">
+        Learn More
+        <ArrowRight size={16} className="text-neutral-500 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" />
       </div>
     </div>
   );
 };
 
-/* ── Main ── */
 const Services = () => {
   const [sectionRef, visible] = useInView(0.05);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
+    <section id="services" className="relative py-32 px-6 overflow-hidden bg-neutral-950 border-t border-white/5" ref={sectionRef}>
+      
+      {/* Background Graphic */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQuNjI3IDU0LjYyN3YtNTMuMjU0aC01My4yNTR2NTMuMjU0aDUzLjI1NHptLTIuMzgxLTIuMzgxdm0tNDguNDkybTAtNDguNDkyaDQ4LjQ5MnY0OC40OTJoLTQ4LjQ5MnYtNDguNDkyeiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjAyIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] opacity-30 [mask-image:radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-black via-black to-transparent pointer-events-none" />
 
-        /* ── Core Theme Colors ── */
-        .sv-section {
-          --crn-black: #0A0A0A;
-          --crn-white: #FFFFFF;
-          --crn-bg: #F9F8F6; /* Slightly off-white to contrast with the About section */
-          --crn-orange: #FF4E25;
-          --crn-gray: #E5E5E5;
-          --crn-text-gray: #666666;
-
-          position: relative;
-          background: var(--crn-bg);
-          padding: 140px 24px;
-          overflow: hidden;
-        }
-
-        /* ── HEADER ── */
-        .sv-header {
-          position: relative; 
-          z-index: 2;
-          text-align: center;
-          max-width: 680px; 
-          margin: 0 auto 72px;
-          opacity: 0; 
-          transform: translateY(20px);
-          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .sv-header.sv-in { opacity: 1; transform: translateY(0); }
-
-        .sv-label {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          padding: 8px 20px;
-          border-radius: 50px;
-          margin-bottom: 24px;
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          color: var(--crn-black);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .sv-label-dot {
-          width: 8px; height: 8px; 
-          border-radius: 50%;
-          background: var(--crn-orange); 
-        }
-
-        .sv-h2 {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(2.8rem, 5vw, 4rem);
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          line-height: 1.05;
-          color: var(--crn-black);
-          margin-bottom: 24px;
-        }
-        
-        .sv-h2-accent {
-          color: var(--crn-orange);
-        }
-
-        .sv-underline {
-          width: 60px;
-          height: 6px;
-          background: var(--crn-black);
-          margin: 0 auto 24px;
-          border-radius: 4px;
-        }
-
-        .sv-sub {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1.1rem; 
-          font-weight: 500; 
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-        }
-
-        /* ── GRID ── */
-        .sv-grid {
-          position: relative; 
-          z-index: 2;
-          max-width: 1200px; 
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-        }
-
-        /* ── CARD ── */
-        .sv-card {
-          position: relative; 
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          border-radius: 16px;
-          padding: 32px 24px;
-          display: flex; 
-          flex-direction: column;
-          opacity: 0; 
-          transform: translateY(24px);
-          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.8, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .sv-card.sv-in { opacity: 1; transform: translateY(0); }
-
-        .sv-card:hover {
-          border-color: var(--crn-black);
-          transform: translateY(-4px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.06);
-        }
-
-        /* Top Line Accent */
-        .sv-card-line {
-          position: absolute;
-          top: -1px; left: 24px; right: 24px;
-          height: 3px;
-          background: var(--crn-black);
-          border-radius: 0 0 4px 4px;
-          transform: scaleX(0);
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
-        }
-        .sv-card:hover .sv-card-line {
-          transform: scaleX(1);
-          background: var(--crn-orange);
-        }
-
-        /* Top row */
-        .sv-card-top {
-          display: flex; 
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 24px;
-        }
-
-        .sv-tag {
-          font-family: 'Syne', sans-serif;
-          font-size: 1rem; 
-          font-weight: 800;
-          color: var(--crn-gray);
-          transition: color 0.3s ease;
-        }
-        .sv-card:hover .sv-tag { color: var(--crn-orange); }
-
-        .sv-icon-wrap {
-          width: 48px; height: 48px; 
-          border-radius: 12px;
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          background: #F2F2F2;
-          color: var(--crn-black);
-          transition: background 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .sv-card:hover .sv-icon-wrap {
-          background: var(--crn-black);
-          color: var(--crn-white);
-          transform: rotate(-5deg) scale(1.05);
-        }
-
-        /* Title block */
-        .sv-card-title { margin-bottom: 16px; }
-        .sv-title-main {
-          font-family: 'Syne', sans-serif;
-          font-size: 1.4rem; 
-          font-weight: 800;
-          letter-spacing: -0.02em; 
-          color: var(--crn-black);
-          line-height: 1.1;
-          margin-bottom: 4px;
-        }
-        .sv-title-sub {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.05em; 
-          text-transform: uppercase;
-          color: var(--crn-orange);
-        }
-
-        /* Desc */
-        .sv-desc {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.95rem; 
-          font-weight: 500; 
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-          margin-bottom: 24px; 
-          flex: 1;
-        }
-
-        /* Pills */
-        .sv-pills {
-          display: flex; 
-          flex-wrap: wrap; 
-          gap: 8px;
-          margin-bottom: 32px;
-        }
-        .sv-pill {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.7rem; 
-          font-weight: 700;
-          letter-spacing: 0.05em; 
-          text-transform: uppercase;
-          padding: 6px 12px; 
-          border-radius: 6px;
-          background: var(--crn-bg);
-          color: var(--crn-text-gray);
-          border: 1px solid var(--crn-gray);
-          transition: all 0.2s ease;
-        }
-        .sv-card:hover .sv-pill {
-          border-color: var(--crn-black);
-          color: var(--crn-black);
-        }
-
-        /* Link */
-        .sv-link {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 8px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800;
-          color: var(--crn-black);
-          cursor: pointer;
-          width: fit-content;
-          transition: color 0.3s ease;
-        }
-        
-        .sv-link-arrow {
-          display: inline-flex;
-          color: var(--crn-orange);
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .sv-card:hover .sv-link { color: var(--crn-orange); }
-        .sv-card:hover .sv-link-arrow { transform: translateX(6px); }
-
-        /* ── CTA BANNER ── */
-        .sv-cta {
-          position: relative; 
-          z-index: 2;
-          max-width: 1200px; 
-          margin: 64px auto 0;
-          background: var(--crn-black);
-          border-radius: 20px;
-          padding: 48px;
-          display: flex; 
-          align-items: center;
-          justify-content: space-between; 
-          gap: 32px;
-          opacity: 0; 
-          transform: translateY(20px);
-          transition: opacity 0.6s ease 0.4s, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0.4s;
-          box-shadow: 0 24px 48px rgba(0,0,0,0.1);
-        }
-        .sv-cta.sv-in { opacity: 1; transform: translateY(0); }
-
-        .sv-cta-left { position: relative; z-index: 1; }
-        
-        .sv-cta-tag {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          color: var(--crn-orange); 
-          margin-bottom: 12px;
-          display: flex; 
-          align-items: center; 
-          gap: 8px;
-        }
-
-        .sv-cta-h {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-          font-weight: 800; 
-          letter-spacing: -0.02em;
-          color: var(--crn-white); 
-          margin-bottom: 12px;
-        }
-        
-        .sv-cta-p {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1rem; 
-          font-weight: 500;
-          color: #A0A0A0; 
-          line-height: 1.6;
-          max-width: 540px;
-        }
-
-        .sv-cta-btn {
-          position: relative; 
-          flex-shrink: 0;
-          display: inline-flex; 
-          align-items: center; 
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800; 
-          letter-spacing: 0.05em;
-          color: var(--crn-white);
-          background: var(--crn-orange);
-          border: none; 
-          cursor: pointer; 
-          text-decoration: none;
-          padding: 16px 32px; 
-          border-radius: 10px;
-          transition: transform 0.2s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
-        }
-        
-        .sv-cta-btn:hover {
-          background: #E03E15;
-          transform: translateY(-3px);
-        }
-        .sv-cta-btn:active { transform: scale(0.98); }
-        
-        .sv-cta-btn-arrow {
-          display: inline-flex;
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .sv-cta-btn:hover .sv-cta-btn-arrow { transform: translateX(4px); }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-          .sv-grid { grid-template-columns: repeat(2,1fr); }
-        }
-        @media (max-width: 768px) {
-          .sv-grid { grid-template-columns: 1fr; }
-          .sv-section { padding: 100px 20px; }
-          .sv-cta { flex-direction: column; align-items: flex-start; padding: 32px 24px; }
-          .sv-cta-btn { width: 100%; justify-content: center; }
-        }
-      `}</style>
-
-      <section id="services" className="sv-section" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Header */}
-        <div className={`sv-header ${visible ? 'sv-in' : ''}`}>
-          <div className="sv-label">
-            <span className="sv-label-dot" />
-            03 · Capabilities
+        <div className={`max-w-2xl mx-auto text-center mb-20 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-8">
+            <span className="w-2 h-2 rounded-full bg-orange-500" />
+            <span className="text-xs font-bold tracking-widest uppercase text-neutral-300">Capabilities</span>
           </div>
-          <h2 className="sv-h2">
-            What We <span className="sv-h2-accent">Build.</span>
+
+          <h2 className="text-5xl md:text-6xl font-black leading-tight tracking-tight mb-6">
+            What We <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Build.</span>
           </h2>
-          <div className="sv-underline" />
-          <p className="sv-sub">
+          
+          <div className="w-16 h-1.5 bg-orange-500 rounded-full mx-auto mb-6" />
+
+          <p className="text-lg text-neutral-400 font-medium leading-relaxed">
             From connected hardware and enterprise software to data-driven growth marketing. We provide everything you need to scale.
           </p>
         </div>
 
-        {/* Cards grid */}
-        <div className="sv-grid">
+        {/* Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {SERVICES.map((s, i) => (
             <ServiceCard key={i} s={s} i={i} visible={visible} />
           ))}
         </div>
 
         {/* CTA Banner */}
-        <div className={`sv-cta ${visible ? 'sv-in' : ''}`}>
-          <div className="sv-cta-left">
-            <div className="sv-cta-tag">
-              <Zap size={14} />
-              Ready to scale?
+        <div className={`mt-24 glass-card border border-white/10 bg-neutral-900/60 p-10 md:p-14 rounded-[2rem] flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-orange-500 mb-4">
+              <Zap size={14} /> Ready to scale?
             </div>
-            <div className="sv-cta-h">Have a project in mind?</div>
-            <p className="sv-cta-p">
+            <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-4">Have a project in mind?</h3>
+            <p className="text-neutral-400 font-medium leading-relaxed max-w-xl">
               Whether you need a full-scale web platform, an IoT integration, or a high-converting ad campaign, we can architect the perfect solution.
             </p>
           </div>
           <a
             href="#contact"
-            className="sv-cta-btn"
+            className="group shrink-0 inline-flex items-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all hover:scale-105 active:scale-95"
             onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
           >
             Let's Talk
-            <span className="sv-cta-btn-arrow"><ArrowRight size={18} /></span>
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

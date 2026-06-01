@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ExternalLink, Github, Loader2, ArrowRight, RefreshCw } from "lucide-react";
 
-/* ── Intersection observer hook ── */
 const useInView = (threshold = 0.05) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -16,7 +15,6 @@ const useInView = (threshold = 0.05) => {
   return [ref, visible];
 };
 
-/* ── Projects Data ── */
 const FALLBACK = [
   {
     id: 1,
@@ -83,42 +81,45 @@ const FALLBACK = [
 const CATEGORIES = ["All", "Web App", "IoT", "SaaS", "Digital Ads"];
 const LIMIT = 6;
 
-/* ── Project Card ── */
 const ProjectCard = ({ project, index, visible }) => {
   return (
     <div
-      className={`pj-card ${visible ? 'pj-in' : ''}`}
-      style={{ transitionDelay: `${index * 80}ms` }}
+      className={`group relative glass-card border border-white/5 bg-neutral-900/40 hover:bg-neutral-800/60 hover:border-orange-500/30 hover:shadow-[0_0_30px_rgba(255,78,37,0.1)] flex flex-col cursor-pointer transition-all duration-500 ease-out overflow-hidden`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(24px)',
+        transitionDelay: `${index * 100}ms`
+      }}
     >
-      {/* Top line accent on hover */}
-      <div className="pj-card-line" />
+      {/* Top Accent Line */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 origin-left scale-x-0 group-hover:scale-x-100 group-hover:bg-orange-500 transition-all duration-300 z-20" />
 
-      {/* Image area */}
-      <div className="pj-img-wrap">
+      {/* Image Area */}
+      <div className="relative h-[220px] overflow-hidden bg-neutral-950 border-b border-white/5">
         <img
           src={project.src}
           alt={project.title}
-          className="pj-img"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
           onError={e => { e.target.style.display = 'none'; }}
         />
         
         {/* Category badge */}
-        <div className="pj-cat-badge">
+        <div className="absolute top-4 left-4 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-lg bg-neutral-900/80 backdrop-blur-md border border-white/10 text-white shadow-lg">
           {project.category}
         </div>
         
         {/* Action icons */}
-        <div className="pj-actions">
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
           {project.github && (
             <a href={project.github} target="_blank" rel="noopener noreferrer"
-              className="pj-action-btn"
+              className="w-9 h-9 rounded-lg flex items-center justify-center bg-neutral-900/80 backdrop-blur-md text-white border border-white/10 hover:bg-neutral-800 hover:scale-110 transition-all shadow-lg"
               onClick={e => e.stopPropagation()}
             >
               <Github size={16} />
             </a>
           )}
           <a href={project.demo} target="_blank" rel="noopener noreferrer"
-            className="pj-action-btn pj-action-primary"
+            className="w-9 h-9 rounded-lg flex items-center justify-center bg-orange-500 text-white border border-orange-400 hover:bg-orange-600 hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,78,37,0.5)]"
           >
             <ExternalLink size={16} />
           </a>
@@ -126,30 +127,29 @@ const ProjectCard = ({ project, index, visible }) => {
       </div>
 
       {/* Content */}
-      <div className="pj-content">
-        <h3 className="pj-title">{project.title}</h3>
-        <p className="pj-desc">{project.description}</p>
+      <div className="p-6 flex flex-col flex-1">
+        <h3 className="text-xl font-black text-white leading-tight tracking-tight mb-2">{project.title}</h3>
+        <p className="text-sm text-neutral-400 font-medium leading-relaxed mb-6 flex-1">{project.description}</p>
 
         {/* Tags */}
-        <div className="pj-tags">
+        <div className="flex flex-wrap gap-2 mb-6">
           {project.tags.map((t, i) => (
-            <span key={i} className="pj-tag">
+            <span key={i} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-md bg-neutral-950 border border-white/5 text-neutral-500 group-hover:border-white/20 group-hover:text-neutral-300 transition-colors">
               {t}
             </span>
           ))}
         </div>
 
         {/* Link */}
-        <div className="pj-link">
-          <span>View Project</span>
-          <ArrowRight className="pj-link-arrow" size={16} />
+        <div className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-orange-500 transition-colors mt-auto">
+          View Project
+          <ArrowRight size={16} className="text-neutral-500 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" />
         </div>
       </div>
     </div>
   );
 };
 
-/* ── Main ── */
 const Projects = () => {
   const [filter, setFilter]   = useState("All");
   const [projects, setProjects] = useState([]);
@@ -174,522 +174,37 @@ const Projects = () => {
   const showToggle = filter === "All" && projects.length > LIMIT;
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@500;600;700;800&display=swap');
+    <section id="projects" className="relative py-32 px-6 overflow-hidden bg-neutral-950 border-t border-white/5" ref={sectionRef}>
 
-        /* ── Core Theme Colors ── */
-        .pj-section {
-          --crn-black: #0A0A0A;
-          --crn-white: #FFFFFF;
-          --crn-bg: #FFFFFF; /* Using pure white to alternate from Services */
-          --crn-orange: #FF4E25;
-          --crn-gray: #E5E5E5;
-          --crn-text-gray: #666666;
-
-          position: relative;
-          background: var(--crn-bg);
-          padding: 140px 24px;
-          overflow: hidden;
-          border-top: 1px solid var(--crn-gray);
-        }
-
-        /* ── HEADER ── */
-        .pj-header {
-          position: relative; 
-          z-index: 2;
-          text-align: center; 
-          max-width: 680px;
-          margin: 0 auto 56px;
-          opacity: 0; 
-          transform: translateY(20px);
-          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .pj-header.pj-in { opacity: 1; transform: translateY(0); }
-
-        .pj-label {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 12px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          padding: 8px 20px;
-          border-radius: 50px;
-          margin-bottom: 24px;
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          color: var(--crn-black);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        
-        .pj-label-dot {
-          width: 8px; height: 8px; 
-          border-radius: 50%;
-          background: var(--crn-orange); 
-        }
-
-        .pj-h2 {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(2.8rem, 5vw, 4rem);
-          font-weight: 800; 
-          letter-spacing: -0.03em; 
-          line-height: 1.05;
-          color: var(--crn-black); 
-          margin-bottom: 24px;
-        }
-        
-        .pj-h2-accent {
-          color: var(--crn-orange);
-        }
-
-        .pj-underline {
-          width: 60px;
-          height: 6px;
-          background: var(--crn-black);
-          margin: 0 auto 24px;
-          border-radius: 4px;
-        }
-
-        .pj-sub {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1.1rem; 
-          font-weight: 500; 
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-        }
-
-        /* ── FILTERS ── */
-        .pj-filters {
-          display: flex; 
-          flex-wrap: wrap;
-          justify-content: center; 
-          gap: 12px;
-          margin-top: 32px;
-        }
-
-        .pj-filter-btn {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.85rem; 
-          font-weight: 800;
-          letter-spacing: 0.05em; 
-          text-transform: uppercase;
-          padding: 10px 24px; 
-          border-radius: 8px;
-          border: 1px solid var(--crn-gray);
-          background: var(--crn-white);
-          color: var(--crn-text-gray);
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .pj-filter-btn:hover {
-          border-color: var(--crn-black);
-          color: var(--crn-black);
-        }
-        .pj-filter-btn.active {
-          color: var(--crn-white);
-          background: var(--crn-black);
-          border-color: var(--crn-black);
-        }
-
-        /* ── LOADING ── */
-        .pj-loading {
-          display: flex; 
-          flex-direction: column;
-          align-items: center; 
-          justify-content: center;
-          padding: 80px 0; 
-          gap: 16px;
-        }
-        .pj-spinner {
-          width: 40px; height: 40px;
-          border-radius: 50%;
-          border: 3px solid var(--crn-gray);
-          border-top-color: var(--crn-orange);
-          animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .pj-loading-txt {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.85rem; 
-          font-weight: 800;
-          text-transform: uppercase; 
-          color: var(--crn-text-gray);
-        }
-
-        /* ── GRID ── */
-        .pj-grid {
-          max-width: 1200px; 
-          margin: 0 auto;
-          display: grid; 
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-        }
-
-        /* ── CARD ── */
-        .pj-card {
-          position: relative; 
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          border-radius: 16px;
-          display: flex; 
-          flex-direction: column;
-          cursor: pointer;
-          opacity: 0; 
-          transform: translateY(24px);
-          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.8, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .pj-card.pj-in { opacity: 1; transform: translateY(0); }
-        
-        .pj-card:hover {
-          border-color: var(--crn-black);
-          transform: translateY(-6px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.06);
-        }
-
-        /* Top Accent Line */
-        .pj-card-line {
-          position: absolute;
-          top: -1px; left: 24px; right: 24px;
-          height: 3px;
-          background: var(--crn-black);
-          border-radius: 0 0 4px 4px;
-          transform: scaleX(0);
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
-          z-index: 10;
-        }
-        .pj-card:hover .pj-card-line {
-          transform: scaleX(1);
-          background: var(--crn-orange);
-        }
-
-        /* Image */
-        .pj-img-wrap {
-          position: relative; 
-          height: 220px; 
-          overflow: hidden;
-          border-bottom: 1px solid var(--crn-gray);
-          border-radius: 16px 16px 0 0;
-          background: #F9F8F6;
-        }
-        .pj-img {
-          width: 100%; 
-          height: 100%; 
-          object-fit: cover;
-          transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .pj-card:hover .pj-img { transform: scale(1.05); }
-
-        /* Category badge */
-        .pj-cat-badge {
-          position: absolute; 
-          top: 16px; 
-          left: 16px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.7rem; 
-          font-weight: 800;
-          letter-spacing: 0.05em; 
-          text-transform: uppercase;
-          padding: 6px 12px; 
-          border-radius: 8px;
-          background: var(--crn-white);
-          color: var(--crn-black);
-          border: 1px solid var(--crn-gray);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        /* Action icons */
-        .pj-actions {
-          position: absolute; 
-          top: 16px; 
-          right: 16px;
-          display: flex; 
-          gap: 8px;
-          opacity: 0;
-          transform: translateY(-10px);
-          transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .pj-card:hover .pj-actions {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .pj-action-btn {
-          width: 36px; height: 36px; 
-          border-radius: 8px;
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          background: var(--crn-white);
-          color: var(--crn-black);
-          border: 1px solid var(--crn-gray);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-          transition: transform 0.2s cubic-bezier(0.8, 0, 0.2, 1), background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        }
-        .pj-action-btn:hover { 
-          transform: scale(1.1); 
-        }
-        .pj-action-primary {
-          background: var(--crn-black);
-          color: var(--crn-white);
-          border-color: var(--crn-black);
-        }
-        .pj-action-primary:hover {
-          background: var(--crn-orange);
-          border-color: var(--crn-orange);
-        }
-
-        /* Content */
-        .pj-content { 
-          padding: 24px; 
-          flex: 1; 
-          display: flex; 
-          flex-direction: column; 
-        }
-
-        .pj-title {
-          font-family: 'Syne', sans-serif;
-          font-size: 1.25rem; 
-          font-weight: 800;
-          letter-spacing: -0.02em; 
-          color: var(--crn-black);
-          margin-bottom: 8px; 
-          line-height: 1.2;
-        }
-        .pj-desc {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.95rem; 
-          font-weight: 500; 
-          line-height: 1.6;
-          color: var(--crn-text-gray);
-          margin-bottom: 20px; 
-          flex: 1;
-        }
-
-        /* Tags */
-        .pj-tags { 
-          display: flex; 
-          flex-wrap: wrap; 
-          gap: 8px; 
-          margin-bottom: 24px; 
-        }
-        .pj-tag {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.7rem; 
-          font-weight: 700;
-          letter-spacing: 0.05em; 
-          text-transform: uppercase;
-          padding: 6px 12px; 
-          border-radius: 6px; 
-          background: #F9F8F6;
-          color: var(--crn-text-gray);
-          border: 1px solid var(--crn-gray);
-          transition: border-color 0.2s ease, color 0.2s ease;
-        }
-        .pj-card:hover .pj-tag {
-          border-color: var(--crn-black);
-          color: var(--crn-black);
-        }
-
-        /* Link */
-        .pj-link {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 8px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800;
-          color: var(--crn-black);
-          transition: color 0.3s ease;
-        }
-        .pj-link-arrow {
-          color: var(--crn-orange);
-          transition: transform 0.3s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .pj-card:hover .pj-link { color: var(--crn-orange); }
-        .pj-card:hover .pj-link-arrow { transform: translateX(6px); }
-
-        /* ── BOTTOM ACTIONS ── */
-        .pj-bottom {
-          max-width: 1200px; 
-          margin: 48px auto 0;
-          display: flex; 
-          flex-wrap: wrap;
-          align-items: center; 
-          justify-content: center; 
-          gap: 16px;
-        }
-
-        .pj-toggle-btn {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800; 
-          letter-spacing: 0.05em;
-          color: var(--crn-black);
-          background: var(--crn-white);
-          border: 2px solid var(--crn-black);
-          padding: 14px 28px; 
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        .pj-toggle-btn:hover {
-          background: var(--crn-black);
-          color: var(--crn-white);
-          transform: translateY(-2px);
-        }
-
-        .pj-cta-btn {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 10px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800; 
-          letter-spacing: 0.05em;
-          color: var(--crn-white);
-          background: var(--crn-black);
-          border: none; 
-          cursor: pointer; 
-          text-decoration: none;
-          padding: 16px 32px; 
-          border-radius: 10px;
-          transition: transform 0.2s cubic-bezier(0.8, 0, 0.2, 1), background 0.3s ease;
-        }
-        .pj-cta-btn:hover {
-          background: var(--crn-orange);
-          transform: translateY(-3px);
-        }
-        .pj-cta-btn:active { transform: scale(0.98); }
-
-        .pj-refresh-btn {
-          display: inline-flex; 
-          align-items: center; 
-          gap: 8px;
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.85rem; 
-          font-weight: 700;
-          color: var(--crn-text-gray);
-          background: none; 
-          border: none;
-          padding: 14px 20px; 
-          cursor: pointer;
-          transition: color 0.2s ease;
-        }
-        .pj-refresh-btn:hover:not(:disabled) { color: var(--crn-black); }
-        .pj-refresh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        /* Empty state */
-        .pj-empty {
-          text-align: center; 
-          padding: 80px 24px;
-        }
-        .pj-empty-icon {
-          font-size: 3rem; 
-          margin-bottom: 16px;
-          opacity: 0.5;
-        }
-        .pj-empty-txt {
-          font-family: 'Manrope', sans-serif;
-          font-size: 1rem; 
-          font-weight: 500;
-          color: var(--crn-text-gray); 
-          margin-bottom: 16px;
-        }
-        .pj-empty-btn {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.9rem; 
-          font-weight: 800;
-          color: var(--crn-orange); 
-          background: none; 
-          border: none;
-          cursor: pointer; 
-          text-decoration: underline;
-          text-underline-offset: 4px;
-        }
-
-        /* ── STATS ROW ── */
-        .pj-stats {
-          max-width: 1200px; 
-          margin: 80px auto 0;
-          display: grid; 
-          grid-template-columns: repeat(4, 1fr);
-          background: var(--crn-white);
-          border: 1px solid var(--crn-gray);
-          border-radius: 16px;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.03);
-          overflow: hidden;
-        }
-        .pj-stat {
-          padding: 32px 16px;
-          text-align: center;
-          border-right: 1px solid var(--crn-gray);
-          opacity: 0; 
-          transform: translateY(16px);
-          transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s ease;
-        }
-        .pj-stat:last-child { border-right: none; }
-        .pj-stat.pj-in { opacity: 1; transform: translateY(0); }
-        .pj-stat:hover { background: #F9F8F6; }
-
-        .pj-stat-n {
-          font-family: 'Syne', sans-serif;
-          font-size: clamp(1.8rem, 4vw, 2.8rem);
-          font-weight: 800; 
-          letter-spacing: -0.03em;
-          line-height: 1; 
-          margin-bottom: 8px;
-          color: var(--crn-black);
-        }
-        
-        .pj-stat-l {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.75rem; 
-          font-weight: 800;
-          letter-spacing: 0.1em; 
-          text-transform: uppercase;
-          color: var(--crn-text-gray);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) { 
-          .pj-grid { grid-template-columns: repeat(2,1fr); } 
-        }
-        @media (max-width: 768px)  {
-          .pj-grid { grid-template-columns: 1fr; }
-          .pj-stats { grid-template-columns: repeat(2,1fr); }
-          .pj-stat:nth-child(2) { border-right: none; }
-          .pj-stat:nth-child(1), .pj-stat:nth-child(2) { border-bottom: 1px solid var(--crn-gray); }
-          .pj-section { padding: 100px 20px; }
-          .pj-bottom { flex-direction: column; align-items: stretch; }
-          .pj-toggle-btn, .pj-cta-btn { width: 100%; justify-content: center; }
-        }
-      `}</style>
-
-      <section id="projects" className="pj-section" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto relative z-10">
 
         {/* Header */}
-        <div className={`pj-header ${visible ? 'pj-in' : ''}`}>
-          <div className="pj-label">
-            <span className="pj-label-dot" />
-            04 · Case Studies
+        <div className={`max-w-2xl mx-auto text-center mb-16 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-8">
+            <span className="w-2 h-2 rounded-full bg-orange-500" />
+            <span className="text-xs font-bold tracking-widest uppercase text-neutral-300">Case Studies</span>
           </div>
-          <h2 className="pj-h2">
-            Featured <span className="pj-h2-accent">Projects.</span>
+
+          <h2 className="text-5xl md:text-6xl font-black leading-tight tracking-tight mb-6">
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Projects.</span>
           </h2>
-          <div className="pj-underline" />
-          <p className="pj-sub">
+          
+          <div className="w-16 h-1.5 bg-orange-500 rounded-full mx-auto mb-6" />
+
+          <p className="text-lg text-neutral-400 font-medium leading-relaxed mb-10">
             A selection of recent work engineered for scale, performance, and conversion.
           </p>
 
           {/* Filters */}
-          <div className="pj-filters">
+          <div className="flex flex-wrap justify-center gap-3">
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
-                className={`pj-filter-btn ${filter === cat ? 'active' : ''}`}
+                className={`text-xs font-bold tracking-widest uppercase px-6 py-2.5 rounded-full border transition-all ${
+                  filter === cat 
+                    ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]' 
+                    : 'bg-neutral-900/50 text-neutral-400 border-white/10 hover:border-white/30 hover:text-white'
+                }`}
                 onClick={() => setFilter(cat)}
               >
                 {cat}
@@ -700,45 +215,45 @@ const Projects = () => {
 
         {/* Loading / Grid */}
         {loading ? (
-          <div className="pj-loading">
-            <div className="pj-spinner" />
-            <span className="pj-loading-txt">Loading projects...</span>
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
+            <span className="text-sm font-bold tracking-widest uppercase text-neutral-500">Loading projects...</span>
           </div>
         ) : (
           <>
             {filtered.length > 0 ? (
-              <div className="pj-grid">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filtered.map((p, i) => (
                   <ProjectCard key={p.id} project={p} index={i} visible={visible} />
                 ))}
               </div>
             ) : (
-              <div className="pj-empty">
-                <div className="pj-empty-icon">🔍</div>
-                <p className="pj-empty-txt">No projects in this category yet.</p>
-                <button className="pj-empty-btn" onClick={() => setFilter("All")}>
+              <div className="text-center py-20 px-6 glass-card border border-white/5">
+                <div className="text-5xl mb-4 opacity-50">🔍</div>
+                <p className="text-neutral-400 font-medium mb-4">No projects in this category yet.</p>
+                <button className="text-orange-500 font-bold hover:underline underline-offset-4" onClick={() => setFilter("All")}>
                   View all projects
                 </button>
               </div>
             )}
 
             {/* Bottom actions */}
-            <div className="pj-bottom">
+            <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-4">
               {showToggle && (
-                <button className="pj-toggle-btn" onClick={() => setShowAll(p => !p)}>
+                <button className="w-full md:w-auto px-8 py-4 text-sm font-bold tracking-widest uppercase text-white bg-neutral-900 border border-white/10 rounded-xl hover:bg-neutral-800 transition-colors" onClick={() => setShowAll(p => !p)}>
                   {showAll ? 'Show Less' : `View All ${projects.length} Projects`}
                 </button>
               )}
               <a
                 href="#contact"
-                className="pj-cta-btn"
+                className="group w-full md:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-neutral-200 transition-colors active:scale-95"
                 onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
               >
                 Start Your Project
-                <ArrowRight size={18} />
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </a>
               <button
-                className="pj-refresh-btn"
+                className="flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold text-neutral-500 hover:text-white transition-colors"
                 onClick={load}
                 disabled={loading}
               >
@@ -749,8 +264,8 @@ const Projects = () => {
           </>
         )}
 
-        {/* Stats */}
-        <div className="pj-stats">
+        {/* Stats Row */}
+        <div className={`mt-24 grid grid-cols-2 lg:grid-cols-4 glass-card border border-white/10 overflow-hidden divide-y lg:divide-y-0 lg:divide-x divide-white/10 transition-all duration-700 delay-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {[
             { n: `${projects.length}+`, l: 'Projects Delivered' },
             { n: '50+',  l: 'Active Clients'    },
@@ -759,16 +274,16 @@ const Projects = () => {
           ].map((s, i) => (
             <div
               key={i}
-              className={`pj-stat ${visible ? 'pj-in' : ''}`}
-              style={{ transitionDelay: `${(i * 100) + 200}ms` }}
+              className="p-8 text-center bg-neutral-900/20 hover:bg-neutral-800/40 transition-colors"
             >
-              <div className="pj-stat-n">{s.n}</div>
-              <div className="pj-stat-l">{s.l}</div>
+              <div className="text-4xl md:text-5xl font-black text-white leading-none mb-2">{s.n}</div>
+              <div className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-neutral-500">{s.l}</div>
             </div>
           ))}
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 };
 
