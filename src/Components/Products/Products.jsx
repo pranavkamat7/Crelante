@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Wand2, Crop, Image as ImageIcon, Sparkles, UserRound } from 'lucide-react';
+import { ArrowRight, Wand2, Crop, Image as ImageIcon, Sparkles, UserRound, FileText, Zap, Calculator, Download } from 'lucide-react';
 
 const Products = () => {
   const sectionRef = useRef(null);
@@ -46,7 +46,7 @@ const Products = () => {
         </div>
 
         {/* Featured Product: Passportly */}
-        <div className={`glass-card p-1 border border-white/10 rounded-[2rem] overflow-hidden transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`glass-card p-1 border border-white/10 rounded-[2rem] overflow-hidden transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} mb-12`}>
           <div className="bg-neutral-900/60 rounded-[1.9rem] overflow-hidden">
             <div className="flex flex-col items-center text-center p-10 lg:p-16 max-w-4xl mx-auto">
               
@@ -97,6 +97,65 @@ const Products = () => {
                   className="group inline-flex items-center gap-3 justify-center px-10 py-5 bg-white text-black text-lg font-bold rounded-xl hover:bg-neutral-200 transition-all duration-300 w-full sm:w-auto shadow-xl"
                 >
                   Try Passportly for Free
+                  <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Featured Product: InvoiceGen */}
+        <div className={`glass-card p-1 border border-white/10 rounded-[2rem] overflow-hidden transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="bg-neutral-900/60 rounded-[1.9rem] overflow-hidden">
+            <div className="flex flex-col items-center text-center p-10 lg:p-16 max-w-4xl mx-auto">
+              
+              {/* Product Info */}
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-rose-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
+                    <FileText size={32} />
+                  </div>
+                  <h3 className="text-4xl font-black text-white">InvoiceGen</h3>
+                </div>
+
+                <p className="text-neutral-300 text-lg leading-relaxed font-medium mb-10 max-w-2xl">
+                  Create professional invoices in seconds. InvoiceGen offers an intuitive, blazing-fast interface to generate, customize, and export stunning PDF invoices for your business, keeping your billing cycle seamless and professional.
+                </p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 w-full">
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-400">
+                      <Zap size={18} />
+                    </div>
+                    Instant Generation
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
+                      <FileText size={18} />
+                    </div>
+                    Custom Templates
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-400">
+                      <Calculator size={18} />
+                    </div>
+                    Auto Calculations
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400">
+                      <Download size={18} />
+                    </div>
+                    PDF Export
+                  </div>
+                </div>
+
+                <a 
+                  href="https://invoicegen-mfwq.onrender.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-3 justify-center px-10 py-5 bg-white text-black text-lg font-bold rounded-xl hover:bg-neutral-200 transition-all duration-300 w-full sm:w-auto shadow-xl"
+                >
+                  Try InvoiceGen for Free
                   <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
