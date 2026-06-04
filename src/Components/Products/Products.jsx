@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Wand2, Crop, Image as ImageIcon, Sparkles, UserRound, FileText, Zap, Calculator, Download } from 'lucide-react';
+import { ArrowRight, Wand2, Crop, Image as ImageIcon, Sparkles, UserRound, FileText, Zap, Calculator, Download, PieChart, TrendingUp, Percent } from 'lucide-react';
 
 const Products = () => {
   const sectionRef = useRef(null);
@@ -156,6 +156,65 @@ const Products = () => {
                   className="group inline-flex items-center gap-3 justify-center px-10 py-5 bg-white text-black text-lg font-bold rounded-xl hover:bg-neutral-200 transition-all duration-300 w-full sm:w-auto shadow-xl"
                 >
                   Try InvoiceGen for Free
+                  <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Featured Product: EMI Calculator */}
+        <div className={`glass-card p-1 border border-white/10 rounded-[2rem] overflow-hidden transition-all duration-1000 delay-[600ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} mt-12`}>
+          <div className="bg-neutral-900/60 rounded-[1.9rem] overflow-hidden">
+            <div className="flex flex-col items-center text-center p-10 lg:p-16 max-w-4xl mx-auto">
+              
+              {/* Product Info */}
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                    <Calculator size={32} />
+                  </div>
+                  <h3 className="text-4xl font-black text-white">EMI Calculator</h3>
+                </div>
+
+                <p className="text-neutral-300 text-lg leading-relaxed font-medium mb-10 max-w-2xl">
+                  Plan your finances with precision. Our EMI Calculator helps you quickly determine your monthly loan installments, visualize your payment schedule, and understand the total interest payable over the life of your loan.
+                </p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 w-full">
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                      <Zap size={18} />
+                    </div>
+                    Instant Results
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-teal-500/10 flex items-center justify-center text-teal-400">
+                      <Percent size={18} />
+                    </div>
+                    Interest Analysis
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                      <PieChart size={18} />
+                    </div>
+                    Visual Breakdown
+                  </div>
+                  <div className="flex flex-col items-center gap-3 text-sm font-medium text-neutral-400">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
+                      <TrendingUp size={18} />
+                    </div>
+                    Amortization
+                  </div>
+                </div>
+
+                <a 
+                  href="https://emi-calculator-5wmp.onrender.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-3 justify-center px-10 py-5 bg-white text-black text-lg font-bold rounded-xl hover:bg-neutral-200 transition-all duration-300 w-full sm:w-auto shadow-xl"
+                >
+                  Try EMI Calculator for Free
                   <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
