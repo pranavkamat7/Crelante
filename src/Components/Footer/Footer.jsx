@@ -60,9 +60,7 @@ const Footer = () => {
             </div>
 
               <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 flex items-center justify-center bg-white rounded-xl shrink-0 shadow-lg">
-                <img src="/crelante.png" alt="Crelante Logo" className="w-7 h-7 object-contain" />
-              </div>
+                <img src="/crelante.jpg" alt="Crelante Logo" className="h-12 w-auto rounded-xl shadow-lg object-contain bg-white" />
               <div className="text-3xl font-black tracking-tight text-white">Crelante</div>
             </div>
 

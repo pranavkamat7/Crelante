@@ -54,9 +54,7 @@ const Navbar = () => {
           
           {/* Logo */}
           <button onClick={() => scrollToSection('home')} className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white/5 border border-white/10 group-hover:border-orange-500/50 transition-colors duration-300">
-               <img src="/crelante.png" alt="Crelante" className="w-8 h-8 object-contain transition-transform duration-500 group-hover:scale-110 brightness-0 invert" />
-            </div>
+            <img src="/crelante.jpg" alt="Crelante" className="h-10 w-auto rounded-xl object-contain transition-transform duration-500 group-hover:scale-110" />
             <span className="text-xl font-bold tracking-tight text-white group-hover:text-orange-400 transition-colors duration-300">Crelante</span>
           </button>
 

@@ -934,7 +934,7 @@ export default function Dashboard() {
             <div className="inv-header">
               <div className="inv-brand">
                 <img
-                  src="/crelante.png"
+                  src="/crelante.jpg"
                   alt="Logo"
                   className="inv-logo"
                 />

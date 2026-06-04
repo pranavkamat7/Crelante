@@ -142,7 +142,7 @@ export default function Login() {
         <div className="login-card">
           
           <div className="login-logo-wrap">
-            <img src="/crelante.png" alt="Crelante Logo" className="login-logo" />
+            <img src="/crelante.jpg" alt="Crelante Logo" className="login-logo" style={{ borderRadius: '8px', objectFit: 'contain' }} />
           </div>
           
           <h2 className="login-title">Admin Access</h2>
