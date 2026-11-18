@@ -12,14 +12,18 @@ const navLinks = [
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      
-      const scrollPosition = window.scrollY + 100;
+      const y = window.scrollY;
+      setIsScrolled(y > 20);
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? Math.min(100, Math.max(0, (y / docHeight) * 100)) : 0);
+
+      const scrollPosition = y + 120;
       for (const link of navLinks) {
         const el = document.getElementById(link.href);
         if (el) {
@@ -32,7 +36,8 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -50,12 +55,12 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${isScrolled ? 'py-4' : 'py-6'}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className={`flex items-center justify-between rounded-2xl transition-all duration-500 ${isScrolled ? 'glass px-4 py-3' : 'px-2 py-2'}`}>
+        <div className={`relative overflow-hidden flex items-center justify-between rounded-2xl transition-all duration-500 ${isScrolled ? 'glass px-4 py-3 shadow-2xl shadow-black/40' : 'px-2 py-2'}`}>
           
           {/* Logo */}
-          <button onClick={() => scrollToSection('home')} className="flex items-center gap-3 group">
+          <button type="button" onClick={() => scrollToSection('home')} className="flex items-center gap-3 group">
             <img src="/crelante.jpg" alt="Crelante" className="h-10 w-auto rounded-xl object-contain transition-transform duration-500 group-hover:scale-110" />
-            <span className="text-xl font-bold tracking-tight text-white group-hover:text-orange-400 transition-colors duration-300">Crelante</span>
+            <span className="font-display text-xl font-bold tracking-tight text-white group-hover:text-orange-400 transition-colors duration-300">Crelante</span>
           </button>
 
           {/* Desktop Nav */}
@@ -82,12 +87,21 @@ const Navbar = () => {
             </button>
             
             <button 
+              type="button"
+              aria-label="Toggle navigation menu"
+              aria-expanded={isMenuOpen}
               className="md:hidden p-2 text-neutral-300 hover:text-white bg-white/5 rounded-xl border border-white/10"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
+          {isScrolled && (
+            <div
+              className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 transition-[width] duration-150 pointer-events-none"
+              style={{ width: `${scrollProgress}%` }}
+            />
+          )}
         </div>
 
         {/* Mobile Menu */}

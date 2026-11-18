@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Send, Mail, Phone, MapPin,
+  Mail, Phone, MapPin, Loader2,
   CheckCircle, AlertCircle, Zap, MessageSquare, Clock, ArrowRight
 } from "lucide-react";
 import emailjs from "emailjs-com";
@@ -62,6 +62,19 @@ const Contact = () => {
   const [errors, setErrors]         = useState({});
   const [focused, setFocused]       = useState('');
   const [sectionRef, visible]       = useInView(0.06);
+
+  useEffect(() => {
+    const onPrefill = (e) => {
+      const subject = e.detail?.subject;
+      if (subject) {
+        setFormData((p) => ({ ...p, subject }));
+        setErrors((p) => ({ ...p, subject: '' }));
+        setFocused('subject');
+      }
+    };
+    window.addEventListener('crelante:prefill-contact', onPrefill);
+    return () => window.removeEventListener('crelante:prefill-contact', onPrefill);
+  }, []);
 
   const validate = () => {
     const e = {};

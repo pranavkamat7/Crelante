@@ -107,10 +107,22 @@ const ServiceCard = ({ s, i, visible }) => {
       </div>
 
       {/* Learn More Link */}
-      <div className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-orange-500 transition-colors mt-auto cursor-pointer">
-        Learn More
+      <a
+        href="#contact"
+        onClick={(e) => {
+          e.preventDefault();
+          window.dispatchEvent(
+            new CustomEvent('crelante:prefill-contact', {
+              detail: { subject: `${s.title} Inquiry` },
+            })
+          );
+          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-orange-500 transition-colors mt-auto cursor-pointer w-fit"
+      >
+        Inquire Now
         <ArrowRight size={16} className="text-neutral-500 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" />
-      </div>
+      </a>
     </div>
   );
 };

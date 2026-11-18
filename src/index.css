@@ -1,37 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
 @layer base {
-  body {
-    @apply font-['Inter'] bg-neutral-950 text-neutral-200 antialiased;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-['Outfit'] font-bold tracking-tight text-white;
-  }
-  
-  * {
+  html {
     scroll-behavior: smooth;
+    background-color: #0a0a0a;
+    color: #e5e5e5;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
   }
-  
+
+  body {
+    @apply font-sans bg-neutral-950 text-neutral-200 antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight text-white;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: #0a0a0a;
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 4px;
+    background: linear-gradient(180deg, #f97316, #ea580c);
+    border-radius: 999px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: linear-gradient(180deg, #fb923c, #f97316);
   }
 }
 

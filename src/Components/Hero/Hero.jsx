@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, Code, Cpu, LineChart, Terminal, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Code, LineChart, Terminal, CheckCircle2 } from 'lucide-react';
 
 const WORDS = ['Software.', 'IoT Systems.', 'SaaS Platforms.', 'Digital Growth.'];
 
@@ -10,18 +10,24 @@ const Hero = () => {
 
   useEffect(() => {
     const currentWord = WORDS[wordIndex];
+    const delay = isDeleting
+      ? 40
+      : text.length === currentWord.length
+      ? 1900
+      : 75;
+
     const timeout = setTimeout(() => {
       if (!isDeleting && text.length < currentWord.length) {
         setText(currentWord.slice(0, text.length + 1));
       } else if (!isDeleting && text.length === currentWord.length) {
-        setTimeout(() => setIsDeleting(true), 2000);
+        setIsDeleting(true);
       } else if (isDeleting && text.length > 0) {
         setText(text.slice(0, -1));
       } else {
         setIsDeleting(false);
         setWordIndex((prev) => (prev + 1) % WORDS.length);
       }
-    }, isDeleting ? 40 : text.length === currentWord.length ? 2000 : 80);
+    }, delay);
 
     return () => clearTimeout(timeout);
   }, [text, isDeleting, wordIndex]);
